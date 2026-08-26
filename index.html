@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WATTWERK Energietechnik – Photovoltaik, Speicher &amp; Smart Energy (Demo)</title>
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css2?family=Instrument+Serif:ital@0;1&family=Lato:wght@400;700&family=Inter+Tight:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<noscript><style>.reveal{opacity:1!important;transform:none!important}#vortexCanvas{display:none!important}</style></noscript>
+<style>
+:root{
+  --bg:#0a0a0a;
+  --bg-2:#0d120d;
+  --green:#1a781c;
+  --green-light:#52ae54;
+  --green-glow:#7cfc8a;
+  --white:#ffffff;
+  --dim:rgba(255,255,255,.7);
+  --faint:rgba(255,255,255,.5);
+  --line:rgba(255,255,255,.1);
+  --card:rgba(255,255,255,.02);
+  --serif:'Instrument Serif', Georgia, serif;
+  --body:'Lato', ui-sans-serif, system-ui, sans-serif;
+  --ui:'Inter Tight', ui-sans-serif, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--white);font-family:var(--body);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px;}
+@media (max-width:640px){.wrap{padding:0 22px;}}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);}
+.reveal.in-view{opacity:1;transform:none;}
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1!important;transform:none!important;transition:none!important;}
+}
+
+/* ============ NAV ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 32px;transition:padding .3s ease, background .3s ease, border-color .3s ease;
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{padding:14px 32px;background:rgba(10,10,10,.75);backdrop-filter:blur(14px);border-color:var(--line);}
+.nav-logo{display:flex;align-items:center;gap:9px;font-family:var(--ui);font-weight:600;font-size:19px;letter-spacing:-.3px;}
+.nav-logo svg{flex-shrink:0;}
+.nav-links{display:flex;gap:26px;list-style:none;font-family:var(--ui);font-size:15px;font-weight:400;letter-spacing:-.2px;}
+.nav-links a{color:var(--dim);transition:color .2s;}
+.nav-links a:hover{color:var(--white);}
+.nav-cta{
+  background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:10px 18px;font-family:var(--ui);font-size:14px;font-weight:500;
+  transition:background .2s, border-color .2s;
+}
+.nav-cta:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);}
+.nav-toggle{display:none;flex-direction:column;gap:5px;width:38px;height:38px;align-items:center;justify-content:center;border-radius:10px;border:1px solid var(--line);background:var(--card);}
+.nav-toggle span{width:18px;height:2px;background:var(--white);border-radius:2px;transition:transform .3s, opacity .3s;}
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nav-toggle.open span:nth-child(2){opacity:0;}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.mobile-menu{
+  position:fixed;inset:0;z-index:45;background:#0a0a0a;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:30px;
+  opacity:0;pointer-events:none;transition:opacity .35s ease;
+}
+.mobile-menu.open{opacity:1;pointer-events:auto;}
+.mobile-menu a{font-family:var(--serif);font-size:2rem;color:var(--white);}
+@media (max-width:900px){
+  .nav-links{display:none;}
+  .nav-cta{display:none;}
+  .nav-toggle{display:flex;}
+}
+
+/* ============ HERO ============ */
+.hero{position:relative;min-height:100vh;overflow:hidden;background:var(--bg);}
+.hero-ambient{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 8% 8%, rgba(82,174,84,.16), transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 20%, rgba(82,174,84,.10), transparent 65%),
+    var(--bg);
+}
+.hero-grain{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.4;
+  background-image:radial-gradient(rgba(255,255,255,.045) 1px, transparent 1px);
+  background-size:3px 3px;
+}
+.vortex-stage{position:absolute;inset:0;z-index:1;}
+#vortexCanvas{position:absolute;top:50%;right:-8%;width:min(1400px,150%);height:150%;transform:translateY(-50%);}
+@media (max-width:900px){
+  #vortexCanvas{position:relative;top:auto;right:auto;transform:none;width:100%;height:60vw;max-height:420px;display:block;margin-top:8px;}
+  .vortex-stage{position:relative;inset:auto;height:60vw;max-height:420px;}
+}
+
+.hero-content{position:relative;z-index:2;padding:170px 0 90px;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:8px 12px;position:relative;overflow:hidden;
+}
+.hero-badge-dot{
+  width:32px;height:32px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.hero-badge span{font-family:var(--body);font-size:15px;letter-spacing:-.2px;}
+.badge-orbit{position:absolute;inset:0;border-radius:inherit;pointer-events:none;}
+
+.hero-title{
+  font-family:var(--serif);font-weight:400;font-style:normal;
+  font-size:clamp(2.6rem,6vw,4.4rem);line-height:1.08;letter-spacing:-1px;
+  max-width:620px;margin-top:26px;
+}
+.hero-title em{font-style:italic;color:var(--green-glow);}
+.hero-sub{
+  font-family:var(--body);font-size:clamp(1.05rem,1.6vw,1.25rem);line-height:1.5;color:var(--dim);
+  max-width:480px;margin-top:20px;
+}
+.hero-ctas{display:flex;gap:16px;margin-top:36px;flex-wrap:wrap;}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;border-radius:12px;font-family:var(--body);
+  font-weight:700;font-size:15px;letter-spacing:-.2px;padding:14px 20px;
+  transition:filter .2s, background .2s, border-color .2s, transform .2s;
+}
+.btn-primary{
+  position:relative;color:#fff;border-top:1px solid rgba(255,255,255,.2);
+  background:linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0) 44%), linear-gradient(90deg, var(--green), var(--green));
+  box-shadow:0 3px 6px rgba(0,0,0,.25), inset 0 1px 1px rgba(255,255,255,.3);
+}
+.btn-primary:hover{filter:brightness(1.12);transform:translateY(-2px);}
+.btn-outline{background:var(--card);border:1px solid var(--line);color:#fff;font-weight:400;}
+.btn-outline:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);transform:translateY(-2px);}
+.btn svg{flex-shrink:0;}
+
+.hero-trust{margin-top:64px;max-width:600px;}
+.hero-trust-label{font-family:var(--ui);font-weight:300;font-size:15px;color:var(--faint);margin-bottom:14px;}
+.trust-ticker{position:relative;overflow:hidden;-webkit-mask-image:linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);mask-image:linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);}
+.trust-track{display:flex;gap:38px;width:max-content;animation:tickerScroll 28s linear infinite;}
+@keyframes tickerScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@media (prefers-reduced-motion: reduce){.trust-track{animation-play-state:paused;}}
+.trust-item{display:flex;align-items:center;gap:8px;font-family:var(--ui);font-size:14px;color:var(--faint);white-space:nowrap;font-weight:500;}
+.trust-item svg{flex-shrink:0;opacity:.7;}
+
+/* ============ SECTIONS SHARED ============ */
+section{position:relative;background:var(--bg);}
+.section-head{max-width:640px;margin:0 auto 56px;text-align:center;}
+.eyebrow{font-family:var(--ui);font-size:.76rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--green-light);}
+.section-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4vw,3rem);line-height:1.12;margin-top:14px;}
+.section-head h2 em{font-style:italic;color:var(--green-glow);}
+.section-head p{font-family:var(--body);color:var(--dim);font-size:1.05rem;margin-top:16px;line-height:1.6;}
+
+/* ============ LEISTUNGEN ============ */
+.leistungen{padding:130px 0;}
+.leist-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+@media (max-width:960px){.leist-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.leist-grid{grid-template-columns:1fr;}}
+.leist-card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .5s cubic-bezier(.16,1,.3,1), border-color .5s;}
+.leist-card:hover{transform:translateY(-8px);border-color:rgba(82,174,84,.4);}
+.leist-photo{height:150px;position:relative;overflow:hidden;}
+.leist-photo img{width:100%;height:100%;object-fit:cover;}
+.leist-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,10,10,0) 55%, rgba(10,10,10,.65) 100%);}
+.leist-body{padding:24px 22px 28px;}
+.leist-icon{width:42px;height:42px;border-radius:50%;border:1px solid rgba(82,174,84,.4);display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+.leist-card h3{font-family:var(--ui);font-weight:600;font-size:1.08rem;margin-bottom:10px;letter-spacing:-.2px;}
+.leist-card p{font-family:var(--body);font-size:.92rem;line-height:1.6;color:var(--dim);}
+
+/* ============ SMART FEATURE ============ */
+.smart{padding:0 0 130px;}
+.smart-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+@media (max-width:900px){.smart-grid{grid-template-columns:1fr;gap:36px;}}
+.smart-visual{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/3.1;border:1px solid var(--line);}
+.smart-visual img{width:100%;height:100%;object-fit:cover;}
+.smart-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(150deg, rgba(82,174,84,.22), transparent 60%);mix-blend-mode:screen;}
+.smart-copy .eyebrow{display:block;margin-bottom:14px;}
+.smart-copy h2{font-family:var(--serif);font-size:clamp(1.8rem,3.4vw,2.6rem);font-weight:400;line-height:1.15;}
+.smart-copy h2 em{font-style:italic;color:var(--green-glow);}
+.smart-copy p{margin-top:18px;color:var(--dim);line-height:1.7;font-size:1.02rem;}
+.smart-list{list-style:none;margin-top:26px;display:flex;flex-direction:column;gap:14px;}
+.smart-list li{display:flex;gap:12px;font-size:.96rem;color:#fff;align-items:flex-start;}
+.smart-list li svg{flex-shrink:0;margin-top:3px;color:var(--green-light);}
+
+/* ============ PROZESS SPINE ============ */
+.prozess{padding:130px 0;background:linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 50%, var(--bg) 100%);}
+.spine{position:relative;max-width:940px;margin:0 auto;padding:10px 24px 0;}
+.spine-track{position:absolute;left:50%;top:0;bottom:60px;width:2px;background:rgba(255,255,255,.08);transform:translateX(-50%);}
+.spine-fill{position:absolute;left:0;top:0;width:100%;height:0%;background:linear-gradient(180deg,var(--green-glow),var(--green));box-shadow:0 0 16px rgba(82,174,84,.55);}
+.spine-step{position:relative;display:grid;grid-template-columns:1fr 60px 1fr;align-items:center;gap:24px;margin-bottom:90px;opacity:0;transform:translateY(46px);transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);}
+.spine-step.in-view{opacity:1;transform:none;}
+.spine-step:last-child{margin-bottom:0;}
+.spine-node{grid-column:2;justify-self:center;position:relative;z-index:2;width:58px;height:58px;border-radius:50%;background:var(--bg);border:1.5px solid var(--green-light);display:flex;align-items:center;justify-content:center;}
+.spine-node svg{width:24px;height:24px;stroke:var(--green-glow);}
+.pulse-ring{position:absolute;inset:-1.5px;border-radius:50%;border:1.5px solid var(--green-light);opacity:0;}
+.spine-step.in-view .pulse-ring{animation:pulseRing 1.6s cubic-bezier(.16,1,.3,1) 2;}
+@keyframes pulseRing{0%{transform:scale(1);opacity:.7;}100%{transform:scale(1.7);opacity:0;}}
+.spine-card{grid-column:1;text-align:right;}
+.spine-step.right{grid-template-columns:1fr 60px 1fr;}
+.spine-step.right .spine-card{grid-column:3;text-align:left;}
+.spine-step.right .spine-ghost{grid-column:1;text-align:right;}
+.spine-ghost{font-family:var(--serif);font-size:5rem;font-weight:400;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.14);line-height:1;grid-column:3;}
+.spine-card .num{font-family:var(--ui);font-weight:700;font-size:.72rem;letter-spacing:.2em;color:var(--green-light);display:block;margin-bottom:8px;text-transform:uppercase;}
+.spine-card h3{font-family:var(--serif);font-weight:400;font-size:1.5rem;margin-bottom:8px;}
+.spine-card p{font-size:.92rem;line-height:1.7;color:var(--dim);max-width:320px;}
+.spine-step.right .spine-card p{margin-left:0;}
+.spine-step:not(.right) .spine-card p{margin-left:auto;}
+@media (max-width:760px){
+  .spine-track{left:26px;}
+  .spine-step,.spine-step.right{grid-template-columns:52px 1fr;gap:18px;margin-bottom:56px;}
+  .spine-node{grid-column:1;justify-self:start;width:48px;height:48px;}
+  .spine-card,.spine-step.right .spine-card{grid-column:2;text-align:left;}
+  .spine-ghost,.spine-step.right .spine-ghost{display:none;}
+  .spine-card p,.spine-step:not(.right) .spine-card p{margin-left:0;}
+}
+
+/* ============ REFERENZEN ============ */
+.referenzen{padding:130px 0;}
+.ref-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media (max-width:860px){.ref-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:560px){.ref-grid{grid-template-columns:1fr;}}
+.ref-card{border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--line);}
+.ref-visual{height:220px;position:relative;overflow:hidden;}
+.ref-visual img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1);}
+.ref-card:hover .ref-visual img{transform:scale(1.06);}
+.ref-body{padding:20px 22px 24px;}
+.ref-loc{font-family:var(--ui);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green-light);}
+.ref-body h3{font-family:var(--serif);font-weight:400;font-size:1.3rem;margin:8px 0 8px;}
+.ref-body p{font-size:.88rem;line-height:1.6;color:var(--dim);}
+
+/* ============ STATS ============ */
+.stats{padding:0 0 130px;}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:50px 0;}
+@media (max-width:760px){.stat-row{grid-template-columns:1fr 1fr;gap:34px 10px;}}
+.stat strong{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,3.4vw,2.7rem);color:var(--green-glow);}
+.stat span{display:block;margin-top:8px;font-size:.82rem;color:var(--faint);font-family:var(--ui);}
+
+/* ============ KONTAKT ============ */
+.kontakt{padding:0 0 130px;}
+.kontakt-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;}
+@media (max-width:900px){.kontakt-grid{grid-template-columns:1fr;gap:40px;}}
+.kontakt-info h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,3.6vw,2.6rem);line-height:1.15;}
+.kontakt-info h2 em{font-style:italic;color:var(--green-glow);}
+.kontakt-info>p{margin:18px 0 30px;color:var(--dim);line-height:1.7;max-width:440px;}
+.kontakt-detail{display:flex;gap:14px;margin-bottom:20px;align-items:flex-start;}
+.kontakt-detail svg{stroke:var(--green-light);width:20px;height:20px;margin-top:2px;flex-shrink:0;}
+.kontakt-detail strong{display:block;font-size:.94rem;}
+.kontakt-detail span{font-size:.86rem;color:var(--dim);}
+.kontakt-form{display:flex;flex-direction:column;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px;}
+.reihe{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media (max-width:520px){.reihe{grid-template-columns:1fr;}}
+.kontakt-form input,.kontakt-form textarea{
+  background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;padding:13px 14px;
+  color:#fff;font-family:var(--body);font-size:.94rem;width:100%;
+}
+.kontakt-form input::placeholder,.kontakt-form textarea::placeholder{color:rgba(255,255,255,.35);}
+.kontakt-form textarea{min-height:110px;resize:vertical;}
+.kontakt-form .btn-primary{justify-content:center;margin-top:6px;border:none;}
+
+/* ============ FOOTER ============ */
+footer{padding:50px 0;border-top:1px solid var(--line);}
+.footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-links{display:flex;gap:22px;list-style:none;font-family:var(--ui);font-size:.86rem;color:var(--faint);}
+.footer-fine{font-family:var(--ui);font-size:.8rem;color:rgba(255,255,255,.35);margin-top:20px;}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-logo">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="#52ae54"/></svg>
+    WATT<span style="color:var(--green-light)">WERK</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#referenzen">Referenzen</a></li>
+    <li><a href="#ablauf">Ablauf</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+  <a href="#kontakt" class="nav-cta" id="navCtaDesktop">Beratung anfragen</a>
+  <div class="nav-toggle" id="navToggle" aria-label="Menü"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#leistungen">Leistungen</a>
+  <a href="#referenzen">Referenzen</a>
+  <a href="#ablauf">Ablauf</a>
+  <a href="#kontakt">Kontakt</a>
+</div>
+
+<section class="hero">
+  <div class="hero-ambient"></div>
+  <div class="hero-grain"></div>
+  <div class="vortex-stage"><canvas id="vortexCanvas"></canvas></div>
+
+  <div class="hero-content wrap">
+    <div class="hero-badge reveal">
+      <div class="hero-badge-dot"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" fill="#fff"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+      <span>Intelligente Energietechnik</span>
+      <div class="badge-orbit" id="badgeOrbit"></div>
+    </div>
+
+    <h1 class="hero-title reveal">Jede Kilowattstunde.<br><em>In Wirkung verwandelt.</em></h1>
+    <p class="hero-sub reveal">Photovoltaik, Speicher und smarte Steuerung aus einer Hand – für Energie, die in Echtzeit mitdenkt.</p>
+
+    <div class="hero-ctas reveal">
+      <a href="#kontakt" class="btn btn-primary">Anlage konfigurieren
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#kontakt" class="btn btn-outline">Beratung anfragen
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <div class="hero-trust reveal">
+      <p class="hero-trust-label">Über 1.200 Anlagen am Bodensee realisiert</p>
+      <div class="trust-ticker">
+        <div class="trust-track">
+          <span class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5z"/></svg>Meisterbetrieb</span>
+          <span class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg>TÜV-zertifiziert</span>
+          <span class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-6h6v6"/></svg>Elektro-Innung Bodensee</span>
+          <span class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>10 Jahre Garantie</span>
+          <span class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5z"/></svg>Meisterbetrieb</span>
+          <span class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg>TÜV-zertifiziert</span>
+          <span class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-6h6v6"/></svg>Elektro-Innung Bodensee</span>
+          <span class="trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>10 Jahre Garantie</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="leistungen" id="leistungen">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Unsere Leistungen</span>
+      <h2>Vier Bausteine. <em>Eine Energiewende.</em></h2>
+      <p>Von der ersten Beratung bis zur App auf Ihrem Handy – alles aus einer Hand, alles aufeinander abgestimmt.</p>
+    </div>
+    <div class="leist-grid">
+      <div class="leist-card reveal">
+        <div class="leist-photo"><img src="img/wattwerk-solarpanel-1.webp" alt="Photovoltaikanlage auf einem Hausdach" loading="lazy"></div>
+        <div class="leist-body">
+          <div class="leist-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#52ae54" stroke-width="1.6"><path d="M12 2v4M12 18v4M4.2 4.2l2.8 2.8M17 17l2.8 2.8M2 12h4M18 12h4M4.2 19.8l2.8-2.8M17 7l2.8-2.8"/><circle cx="12" cy="12" r="4"/></svg></div>
+          <h3>Photovoltaikanlagen</h3>
+          <p>Planung und Installation maßgeschneiderter PV-Anlagen für Dach und Fassade – nach VDE-Norm, aus einer Hand.</p>
+        </div>
+      </div>
+      <div class="leist-card reveal" style="transition-delay:.08s">
+        <div class="leist-photo"><img src="img/wattwerk-battery-1.webp" alt="Stromspeicher im Hauskeller" loading="lazy"></div>
+        <div class="leist-body">
+          <div class="leist-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#52ae54" stroke-width="1.6"><rect x="4" y="7" width="14" height="10" rx="1.5"/><path d="M18 10h2v4h-2"/><path d="M8 12h1.5L11 9l2 6 1.5-3H16"/></svg></div>
+          <h3>Stromspeicher</h3>
+          <p>Eigenen Solarstrom speichern statt einspeisen – für einen Autarkiegrad von bis zu 80 % im Jahresschnitt.</p>
+        </div>
+      </div>
+      <div class="leist-card reveal" style="transition-delay:.16s">
+        <div class="leist-photo"><img src="img/wattwerk-wallbox-1.webp" alt="Wallbox für Elektroauto an einer Hauswand" loading="lazy"></div>
+        <div class="leist-body">
+          <div class="leist-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#52ae54" stroke-width="1.6"><path d="M5 21V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v14"/><path d="M5 21h10"/><path d="M15 10h2l2 3v6h-2"/><path d="M9 3v2M12 3v2"/></svg></div>
+          <h3>Wallbox &amp; E-Mobility</h3>
+          <p>Laden mit eigenem Solarstrom – Wallbox-Installation inklusive Lastmanagement für Ihr Zuhause.</p>
+        </div>
+      </div>
+      <div class="leist-card reveal" style="transition-delay:.24s">
+        <div class="leist-photo"><img src="img/wattwerk-app-1.webp" alt="Smartphone mit Energiemonitoring-App" loading="lazy"></div>
+        <div class="leist-body">
+          <div class="leist-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#52ae54" stroke-width="1.6"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4"/></svg></div>
+          <h3>Energiemanagement</h3>
+          <p>Die WATTWERK-App zeigt Erzeugung, Verbrauch und Speicherstand live – und steuert Verbraucher automatisch mit.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="smart">
+  <div class="wrap">
+    <div class="smart-grid">
+      <div class="smart-visual reveal">
+        <img src="img/wattwerk-app-2.webp" alt="Person prüft Energiedaten auf einem Tablet">
+      </div>
+      <div class="smart-copy reveal">
+        <span class="eyebrow">Adaptive Intelligenz</span>
+        <h2>Ihre Anlage <em>denkt mit.</em></h2>
+        <p>Die WATTWERK-App verbindet Ihre Photovoltaikanlage, den Speicher und die Wallbox zu einem System, das aus Wetterprognose, Strompreis und Verbrauch in Echtzeit die beste Entscheidung trifft.</p>
+        <ul class="smart-list">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Live-Monitoring von Erzeugung &amp; Verbrauch</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Automatische Ladesteuerung nach Sonnenprognose</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Push-Benachrichtigung bei Störungen, 24/7</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="prozess" id="ablauf">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">So geht's</span>
+      <h2>Von der Beratung <em>zur eigenen Energiewende</em></h2>
+      <p>Vier Schritte, transparent begleitet – von der ersten Dachanalyse bis zur eingeschalteten Anlage.</p>
+    </div>
+    <div class="spine">
+      <div class="spine-track"><div class="spine-fill" id="spineFill"></div></div>
+
+      <div class="spine-step">
+        <div class="spine-card">
+          <span class="num">01 — Analyse</span>
+          <h3>Dach- &amp; Bedarfsanalyse</h3>
+          <p>Wir prüfen Dachfläche, Ausrichtung und Ihren Stromverbrauch – per Satellitendaten und vor Ort.</p>
+        </div>
+        <div class="spine-node"><div class="pulse-ring"></div><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
+        <div class="spine-ghost">01</div>
+      </div>
+
+      <div class="spine-step right">
+        <div class="spine-ghost">02</div>
+        <div class="spine-node"><div class="pulse-ring"></div><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M3 21l4-1 11-11-3-3L4 17l-1 4z"/><path d="M14 6l3 3"/></svg></div>
+        <div class="spine-card">
+          <span class="num">02 — Planung</span>
+          <h3>Individuelle Anlagenplanung</h3>
+          <p>Modulanzahl, Speichergröße und Wallbox werden auf Ihren Verbrauch und Ihre Fördermittel zugeschnitten.</p>
+        </div>
+      </div>
+
+      <div class="spine-step">
+        <div class="spine-card">
+          <span class="num">03 — Installation</span>
+          <h3>Montage durch das Meisterteam</h3>
+          <p>Unser eigenes Team installiert Module, Speicher und Wallbox – in der Regel innerhalb von zwei Tagen.</p>
+        </div>
+        <div class="spine-node"><div class="pulse-ring"></div><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M14 4l6 6-3 3-6-6z"/><path d="M13 8l-9 9v3h3l9-9"/></svg></div>
+        <div class="spine-ghost">03</div>
+      </div>
+
+      <div class="spine-step right">
+        <div class="spine-ghost">04</div>
+        <div class="spine-node"><div class="pulse-ring"></div><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h1v6H9zM14 9h1v6h-1z"/></svg></div>
+        <div class="spine-card">
+          <span class="num">04 — Inbetriebnahme</span>
+          <h3>Anmeldung &amp; App-Einrichtung</h3>
+          <p>Wir übernehmen die Anmeldung beim Netzbetreiber und richten die WATTWERK-App auf Ihrem Handy ein.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="referenzen" id="referenzen">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Referenzen</span>
+      <h2>Anlagen, die <em>bereits laufen.</em></h2>
+      <p>Eine Auswahl realisierter Projekte rund um den Bodensee.</p>
+    </div>
+    <div class="ref-grid">
+      <div class="ref-card reveal">
+        <div class="ref-visual"><img src="img/wattwerk-roof-1.webp" alt="Photovoltaikanlage auf einem Einfamilienhaus"></div>
+        <div class="ref-body">
+          <span class="ref-loc">Konstanz</span>
+          <h3>9,8 kWp Einfamilienhaus</h3>
+          <p>Volleinspeisung auf Eigenverbrauch umgestellt, inklusive 10 kWh Speicher und Wallbox.</p>
+        </div>
+      </div>
+      <div class="ref-card reveal" style="transition-delay:.08s">
+        <div class="ref-visual"><img src="img/wattwerk-roof-2.webp" alt="Große Freiflächen-Photovoltaikanlage aus der Vogelperspektive"></div>
+        <div class="ref-body">
+          <span class="ref-loc">Bodenseekreis</span>
+          <h3>850 kWp Freiflächenanlage</h3>
+          <p>Planung und Netzanschluss einer Freiflächenanlage für einen landwirtschaftlichen Betrieb.</p>
+        </div>
+      </div>
+      <div class="ref-card reveal" style="transition-delay:.16s">
+        <div class="ref-visual"><img src="img/wattwerk-solarpanel-1.webp" alt="Nahaufnahme moderner Photovoltaik-Module"></div>
+        <div class="ref-body">
+          <span class="ref-loc">Überlingen</span>
+          <h3>Anlagenerweiterung</h3>
+          <p>Bestehende Altanlage um zusätzliche Module, einen 15 kWh Speicher und Lastmanagement erweitert.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="wrap">
+    <div class="stat-row reveal">
+      <div class="stat"><strong class="countup" data-target="1200" data-suffix="+">0</strong><span>Anlagen realisiert</span></div>
+      <div class="stat"><strong class="countup" data-target="18" data-suffix=" MWp">0</strong><span>installierte Leistung</span></div>
+      <div class="stat"><strong>seit 2009</strong><span>Meisterbetrieb am Bodensee</span></div>
+      <div class="stat"><strong>4,9★</strong><span>Google-Bewertungen</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="kontakt" id="kontakt">
+  <div class="wrap">
+    <div class="kontakt-grid">
+      <div class="kontakt-info reveal">
+        <span class="eyebrow">Kontakt</span>
+        <h2>Lassen Sie uns <em>Ihr Dach berechnen.</em></h2>
+        <p>Unverbindlich und kostenlos – wir melden uns innerhalb eines Werktags mit einer ersten Einschätzung.</p>
+        <div class="kontakt-detail">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg>
+          <div><strong>Werkstatt &amp; Ausstellung</strong><span>Byk-Gulden-Straße 12, 78467 Konstanz</span></div>
+        </div>
+        <div class="kontakt-detail">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg>
+          <div><strong>Telefon</strong><span>+49 7531 40 82 90</span></div>
+        </div>
+      </div>
+      <form class="kontakt-form" onsubmit="return false">
+        <div class="reihe">
+          <input type="text" placeholder="Ihr Name" aria-label="Ihr Name">
+          <input type="tel" placeholder="Telefon" aria-label="Telefon">
+        </div>
+        <input type="email" placeholder="E-Mail" aria-label="E-Mail">
+        <input type="text" placeholder="Dachfläche (ca. m²) — optional" aria-label="Dachfläche">
+        <textarea placeholder="Erzählen Sie uns von Ihrem Dach …" aria-label="Nachricht"></textarea>
+        <button type="submit" class="btn btn-primary">Kostenlos berechnen lassen</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <div class="nav-logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="#52ae54"/></svg>
+        WATT<span style="color:var(--green-light)">WERK</span>
+      </div>
+      <ul class="footer-links">
+        <li><a href="#leistungen">Leistungen</a></li>
+        <li><a href="#referenzen">Referenzen</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+        <li><a href="#">Impressum</a></li>
+        <li><a href="#">Datenschutz</a></li>
+      </ul>
+    </div>
+    <p class="footer-fine">© 2026 WATTWERK Energietechnik · Konstanz — Fiktives Demo-Beispiel · Buchalik Digital</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+(function(){
+  document.documentElement.classList.add('js-loading');
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- nav ---------- */
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function(){
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+  var navToggle = document.getElementById('navToggle');
+  var mobileMenu = document.getElementById('mobileMenu');
+  navToggle.addEventListener('click', function(){
+    navToggle.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  mobileMenu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ navToggle.classList.remove('open'); mobileMenu.classList.remove('open'); });
+  });
+
+  /* ---------- reveal on scroll ---------- */
+  var revealEls = document.querySelectorAll('.reveal, .spine-step');
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){ entry.target.classList.add('in-view'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in-view'); });
+  }
+
+  /* ---------- spine fill ---------- */
+  var spine = document.querySelector('.spine');
+  var spineFill = document.getElementById('spineFill');
+  if (spine && spineFill){
+    function updateSpine(){
+      var rect = spine.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var start = vh * 0.8;
+      var total = rect.height + vh * 0.4;
+      var progress = (start - rect.top) / total;
+      progress = Math.max(0, Math.min(1, progress));
+      spineFill.style.height = (progress * 100) + '%';
+    }
+    window.addEventListener('scroll', updateSpine);
+    window.addEventListener('resize', updateSpine);
+    updateSpine();
+  }
+
+  /* ---------- counters ---------- */
+  var counters = document.querySelectorAll('.countup');
+  if (counters.length && 'IntersectionObserver' in window){
+    var cio = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting) return;
+        cio.unobserve(entry.target);
+        var el = entry.target;
+        var target = parseFloat(el.getAttribute('data-target'));
+        var suffix = el.getAttribute('data-suffix') || '';
+        if (reducedMotion){ el.textContent = target + suffix; return; }
+        var start = null;
+        var dur = 1400;
+        function step(ts){
+          if (!start) start = ts;
+          var p = Math.min(1, (ts - start) / dur);
+          var eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased) + suffix;
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(function(el){ cio.observe(el); });
+  }
+
+  /* ---------- badge orbit (ported from Originkit BorderOrbit) ---------- */
+  (function(){
+    var wrapper = document.getElementById('badgeOrbit');
+    if (!wrapper) return;
+    var color = '#52ae54', bandWidth = 1.5, arcPercent = 20, speed = 3;
+    wrapper.style.cssText += 'position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-sizing:border-box;padding:' + bandWidth + 'px;'
+      + 'mask-image:linear-gradient(#000 0 0),linear-gradient(#000 0 0);mask-clip:border-box,content-box;mask-composite:exclude;'
+      + '-webkit-mask-image:linear-gradient(#000 0 0),linear-gradient(#000 0 0);-webkit-mask-clip:border-box,content-box;-webkit-mask-composite:xor;';
+    var comet = document.createElement('div');
+    comet.style.position = 'absolute'; comet.style.top = '50%'; comet.style.left = '50%'; comet.style.transformOrigin = 'center';
+    var arcDeg = (arcPercent / 100) * 360;
+    var cometBg = 'conic-gradient(from 0deg, ' + color + ' 0deg, rgba(0,0,0,0) ' + arcDeg + 'deg, rgba(0,0,0,0) 360deg)';
+    var glow = document.createElement('div');
+    glow.style.cssText = 'position:absolute;inset:0;background:' + cometBg + ';filter:blur(6px);';
+    var core = document.createElement('div');
+    core.style.cssText = 'position:absolute;inset:0;background:' + cometBg + ';opacity:.6;';
+    comet.appendChild(glow); comet.appendChild(core);
+    wrapper.appendChild(comet);
+    function measure(){
+      var side = Math.ceil(Math.hypot(wrapper.offsetWidth, wrapper.offsetHeight) * 1.02);
+      comet.style.width = side + 'px'; comet.style.height = side + 'px';
+      comet.style.marginTop = (-side/2) + 'px'; comet.style.marginLeft = (-side/2) + 'px';
+    }
+    measure();
+    if ('ResizeObserver' in window) new ResizeObserver(measure).observe(wrapper);
+    if (!reducedMotion){
+      var loopSec = Math.max(0.5, 10 / speed);
+      var degPerSec = (360 / loopSec) * -1;
+      var last = 0, angle = 0;
+      function tick(t){
+        if (!last) last = t;
+        angle = (angle + (degPerSec * (t - last)) / 1000) % 360;
+        last = t;
+        comet.style.transform = 'rotate(' + angle + 'deg)';
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+  })();
+
+  document.documentElement.classList.remove('js-loading');
+})();
+</script>
+<script>
+/* ============================================================
+   Vortex — ported from Originkit hero-18 "Tornado" (React/TSX -> vanilla JS).
+   Same engine, stripped of React/TypeScript; driven here by a plain config
+   object instead of props. Original: strands spiral up a pinched hyperboloid,
+   dots ride them and flicker, comets race along them.
+   ============================================================ */
+(function(){
+  if (!window.THREE) return;
+  var canvas = document.getElementById('vortexCanvas');
+  var container = document.querySelector('.vortex-stage');
+  if (!canvas || !container) return;
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var TAU = Math.PI * 2;
+  var PX_PER_WORLD = 60;
+  var CURVE_SAMPLES = 1024;
+  var STRAND_SEGMENTS = 400;
+  var WOBBLE = 0.008;
+  var FADE_ZONE = 0.15;
+  var FORM_HEIGHT = 10;
+  var BASE_ZOOM = 67;
+  function fovForZoom(zoom){ return clamp(2 * BASE_ZOOM - zoom, 1, 175); }
+  var LINE_GLOW_MAX = 1;
+  var DOT_GLOW_MAX = 4.2;
+  var COMET_SPEED_MAX = 0.15;
+  var COMET_GLOW_MAX = 1;
+  var DOT_SIZE_SCALE = 1000;
+  var RIPPLE_RADIUS = 2;
+  var RIPPLE_STRENGTH = 0.5;
+  var RIPPLE_SPRING = 50;
+  var RIPPLE_DAMPING = 9;
+  var SCALE_SPRING = 65;
+  var SCALE_DAMPING = 11;
+  var SCALE_PEAK = 1.8;
+  var WAVE_SPEED = 5;
+  var WAVE_WIDTH = 1.2;
+  var WAVE_DECAY = 0.8;
+  var WAVE_LIFE = 2.5;
+  var WAVE_STRENGTH = 0.04;
+  var MAX_WAVES = 16;
+  var RUN_LOW = 0.03;
+  var RUN_HIGH = 0.95;
+  var RUN_FADE = 0.1;
+  var HIT_RADIUS = 0.8;
+  var HIT_BOOST = 1.6;
+  var HIT_BOOST_TIME = 0.4;
+  var HIT_FLASH = 6;
+  var HIT_FADE = 0.6;
+  var HIT_POP = 1.3;
+  var HIT_RESPAWN = 8;
+  var STRAND_HZ = 1 / 30;
+  var ENTRANCE = { strandStart: 0, strandEnd: 2, dotStart: 1.2, dotEnd: 3, cometStart: 3, cometEnd: 5 };
+
+  function clamp(x, a, b){ return Math.min(Math.max(x, a), b); }
+  function ramp(now, from, to){
+    if (now <= from) return 0;
+    if (now >= to) return 1;
+    var t = (now - from) / (to - from);
+    return 1 - (1 - t) * (1 - t) * (1 - t);
+  }
+  function monotone(points){
+    var n = points.length;
+    var slope = [];
+    for (var i = 0; i < n - 1; i++) slope[i] = (points[i+1][1] - points[i][1]) / (points[i+1][0] - points[i][0]);
+    var m = [slope[0]];
+    for (i = 1; i < n - 1; i++) m[i] = slope[i-1] * slope[i] <= 0 ? 0 : (slope[i-1] + slope[i]) / 2;
+    m[n-1] = slope[n-2];
+    for (i = 0; i < n - 1; i++){
+      if (Math.abs(slope[i]) < 1e-12){ m[i] = m[i+1] = 0; continue; }
+      var a = m[i] / slope[i], b = m[i+1] / slope[i];
+      var s = a*a + b*b;
+      if (s > 9){ var k = 3 / Math.sqrt(s); m[i] = k*a*slope[i]; m[i+1] = k*b*slope[i]; }
+    }
+    return function(x){
+      if (x <= points[0][0]) return points[0][1];
+      if (x >= points[n-1][0]) return points[n-1][1];
+      var i2 = 0;
+      while (i2 < n - 2 && points[i2+1][0] < x) i2++;
+      var h = points[i2+1][0] - points[i2][0];
+      var t = (x - points[i2][0]) / h;
+      var t2 = t*t, t3 = t2*t;
+      return (2*t3-3*t2+1)*points[i2][1] + (t3-2*t2+t)*h*m[i2] + (-2*t3+3*t2)*points[i2+1][1] + (t3-t2)*h*m[i2+1];
+    };
+  }
+  function bake(fn){
+    var table = new Float32Array(CURVE_SAMPLES);
+    for (var i = 0; i < CURVE_SAMPLES; i++) table[i] = fn(i / (CURVE_SAMPLES - 1));
+    return table;
+  }
+  function sample(table, t){
+    if (t <= 0) return table[0];
+    var last = table.length - 1;
+    if (t >= 1) return table[last];
+    var x = t * last, i = x | 0;
+    return table[i] + (table[i+1] - table[i]) * (x - i);
+  }
+
+  function makeShape(cfg){
+    var w = clamp(cfg.waistAt, 0.08, 0.92);
+    var floor = cfg.floorRadius, crown = cfg.crownRadius, turn = cfg.twist * TAU;
+    var radius = bake(monotone([
+      [0, floor], [0.24*w, floor*0.667], [0.5*w, floor*0.3], [0.76*w, floor*0.08],
+      [w, cfg.waistRadius], [w+0.3*(1-w), crown*0.2], [w+0.6*(1-w), crown*0.44], [1, crown]
+    ]));
+    var height = bake(monotone([
+      [0,0],[0.1,0.2],[0.2,0.8],[0.35,2],[0.5,FORM_HEIGHT*0.38],[0.75,FORM_HEIGHT*0.7],[1,FORM_HEIGHT]
+    ]));
+    var angle = bake(monotone([
+      [0,0],[0.15,0.15*turn],[0.25,0.25*turn],[0.45,0.55*turn],[0.6,0.7*turn],[0.8,0.88*turn],[1,turn]
+    ]));
+    return {
+      writePoint: function(out, at, s, lane, flow, wobble, phase, time){
+        var r = sample(radius, s), y = sample(height, s), a = sample(angle, s) + lane + flow;
+        var rr = r + Math.sin(s*25 + phase + time*0.3) * wobble * r;
+        out[at] = Math.cos(a) * rr; out[at+1] = y; out[at+2] = Math.sin(a) * rr;
+      },
+      lane: function(i, total){ return (i / total) * TAU; }
+    };
+  }
+
+  function createVortex(canvas, container, cfgRef){
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false, alpha: true, powerPreference: 'high-performance' });
+    renderer.setClearColor(0x000000, 0);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1));
+    renderer.toneMapping = THREE.ReinhardToneMapping;
+    renderer.toneMappingExposure = 1.25;
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(fovForZoom(cfgRef.current.zoom), 1, 0.1, 500);
+    var group = new THREE.Group();
+    scene.add(group);
+
+    var repelUniforms = { uMouse: { value: new THREE.Vector2(0,0) }, uAspect: { value: 1 }, uRadius: { value: 0.2 }, uStrength: { value: 0 } };
+    function withRepel(material){
+      material.onBeforeCompile = function(shader){
+        shader.uniforms.uMouse = repelUniforms.uMouse;
+        shader.uniforms.uAspect = repelUniforms.uAspect;
+        shader.uniforms.uRadius = repelUniforms.uRadius;
+        shader.uniforms.uStrength = repelUniforms.uStrength;
+        shader.vertexShader = shader.vertexShader
+          .replace('void main() {', 'uniform vec2 uMouse;\nuniform float uAspect;\nuniform float uRadius;\nuniform float uStrength;\nvoid main() {')
+          .replace('#include <fog_vertex>', '#include <fog_vertex>\nif (uStrength > 0.0 && uRadius > 0.0 && gl_Position.w > 0.0) {\n  vec2 ndc = gl_Position.xy / gl_Position.w;\n  vec2 off = ndc - uMouse;\n  float dist = length(off * vec2(uAspect, 1.0));\n  float f = uStrength * exp(-(dist * dist) / (2.0 * uRadius * uRadius));\n  float m = length(off);\n  if (m > 1e-4) {\n    ndc += (off / m) * f;\n    gl_Position.xy = ndc * gl_Position.w;\n  }\n}');
+      };
+      return material;
+    }
+
+    var shape, disposables = [];
+    function track(x){ disposables.push(x); return x; }
+
+    var strands = [], strandPos = new Float32Array(0), strandCol = new Float32Array(0), strandGeo = null;
+    var dotList = [], dotCount = 0, dotMesh = null, dotColors = new Float32Array(0);
+    var dotHome = new Float32Array(0), dotShift = new Float32Array(0), dotVel = new Float32Array(0);
+    var dotScale = new Float32Array(0), dotScaleVel = new Float32Array(0), dotHitAt = new Float32Array(0);
+    var dotFlash = new Float32Array(0), dotAlive = new Float32Array(0), rippleAwake = false;
+    var cometList = [], cometTex = null, waves = [], wavesAwake = false;
+    var dummy = new THREE.Matrix4();
+    var tint = { strand: new THREE.Color(), dot: new THREE.Color(), comet: new THREE.Color() };
+    var lastColors = { line: '', dot: '', comet: '' };
+
+    function syncColors(cfg){
+      if (cfg.lineColor !== lastColors.line){ tint.strand.set(cfg.lineColor); lastColors.line = cfg.lineColor; }
+      if (cfg.dotColor !== lastColors.dot){ tint.dot.set(cfg.dotColor); lastColors.dot = cfg.dotColor; }
+      if (cfg.cometColor !== lastColors.comet){
+        tint.comet.set(cfg.cometColor); lastColors.comet = cfg.cometColor;
+        for (var i=0;i<cometList.length;i++) cometList[i].head.material.color.setRGB(tint.comet.r*1.2, tint.comet.g*1.2, tint.comet.b*1.2);
+      }
+    }
+    function blob(size, stops){
+      var c = document.createElement('canvas'); c.width = c.height = size;
+      var ctx2d = c.getContext('2d');
+      if (ctx2d){
+        var g = ctx2d.createRadialGradient(size/2,size/2,0,size/2,size/2,size/2);
+        for (var i=0;i<stops.length;i++) g.addColorStop(stops[i][0], stops[i][1]);
+        ctx2d.fillStyle = g; ctx2d.fillRect(0,0,size,size);
+      }
+      var tex = new THREE.Texture(c); tex.needsUpdate = true; return tex;
+    }
+
+    var born = 0;
+
+    function build(){
+      var cfg = cfgRef.current;
+      for (var gi = group.children.length - 1; gi >= 0; gi--) group.remove(group.children[gi]);
+      for (var di=0; di<disposables.length; di++) disposables[di].dispose();
+      disposables = [];
+
+      shape = makeShape(cfg);
+      camera.fov = fovForZoom(cfg.zoom);
+      camera.updateProjectionMatrix();
+      syncColors(cfg);
+
+      var count = Math.max(3, Math.round(cfg.lineCount));
+      var segs = STRAND_SEGMENTS - 1;
+      var verts = count * segs * 2;
+      strandPos = new Float32Array(verts * 3);
+      strandCol = new Float32Array(verts * 3);
+      strandGeo = track(new THREE.BufferGeometry());
+      strandGeo.setAttribute('position', new THREE.BufferAttribute(strandPos, 3).setUsage(THREE.DynamicDrawUsage));
+      strandGeo.setAttribute('color', new THREE.BufferAttribute(strandCol, 3).setUsage(THREE.DynamicDrawUsage));
+      var strandMat = track(withRepel(new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false })));
+      var strandLines = new THREE.LineSegments(strandGeo, strandMat);
+      strandLines.frustumCulled = false;
+      group.add(strandLines);
+
+      strands = [];
+      for (var i = 0; i < count; i++){
+        strands.push({
+          lane: shape.lane(i, count), speed: 0.95 + Math.random()*0.1, pulse: Math.random()*TAU,
+          wobblePhase: Math.random()*TAU, from: 0, to: 1, bright: 0.5, offset: i*segs*2*3,
+          pts: new Float32Array(STRAND_SEGMENTS*3), cols: new Float32Array(STRAND_SEGMENTS*3)
+        });
+      }
+
+      dotCount = cfg.showDots ? Math.max(0, Math.round(cfg.dotCount)) : 0;
+      dotList = [];
+      for (i = 0; i < dotCount; i++){
+        var s = Math.random() < 0.5 ? 0.2 + Math.random()*0.4 : 0.05 + Math.random()*0.9;
+        var strandIdx = Math.floor(Math.random() * strands.length);
+        dotList.push({ s: s, lane: strands[strandIdx].lane, strand: strandIdx, pulse: Math.random()*TAU, flickerRate: 0.15+Math.random()*4.5, bright: 0.04+Math.pow(Math.random(),1.5)*0.96 });
+      }
+      dotHome = new Float32Array(dotCount*3); dotShift = new Float32Array(dotCount*3); dotVel = new Float32Array(dotCount*3);
+      dotScale = new Float32Array(dotCount).fill(1); dotScaleVel = new Float32Array(dotCount);
+      dotHitAt = new Float32Array(dotCount); dotFlash = new Float32Array(dotCount); dotAlive = new Float32Array(dotCount).fill(1);
+      dotColors = new Float32Array(dotCount*3); rippleAwake = false;
+
+      if (dotCount > 0){
+        var dotGeo = track(new THREE.PlaneGeometry(1,1));
+        var dotMat = track(withRepel(new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false })));
+        dotMesh = new THREE.InstancedMesh(dotGeo, dotMat, dotCount);
+        dotMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        dotMesh.instanceColor = new THREE.InstancedBufferAttribute(dotColors, 3);
+        dotMesh.instanceColor.setUsage(THREE.DynamicDrawUsage);
+        dotMesh.frustumCulled = false;
+        group.add(dotMesh);
+      } else dotMesh = null;
+
+      waves = [];
+      for (i = 0; i < MAX_WAVES; i++) waves.push({ active:false, x:0,y:0,z:0, at:0, amp:1 });
+      wavesAwake = false;
+
+      cometTex = track(blob(32, [[0,'rgba(255,255,255,0.9)'],[0.3,'rgba(120,255,150,0.4)'],[0.7,'rgba(50,200,90,0.08)'],[1,'rgba(0,0,0,0)']]));
+      var cometTotal = cfg.showComets ? Math.max(0, Math.round(cfg.cometCount)) : 0;
+      var tailLen = Math.max(2, Math.round(cfg.cometTail));
+      cometList = [];
+      for (i = 0; i < cometTotal; i++){
+        var trail = new Float32Array(tailLen*3), trailCol = new Float32Array(tailLen*3);
+        var geo = track(new THREE.BufferGeometry());
+        geo.setAttribute('position', new THREE.BufferAttribute(trail,3).setUsage(THREE.DynamicDrawUsage));
+        geo.setAttribute('color', new THREE.BufferAttribute(trailCol,3).setUsage(THREE.DynamicDrawUsage));
+        var lineMat = track(withRepel(new THREE.LineBasicMaterial({ vertexColors:true, transparent:true, opacity:0.9, blending:THREE.AdditiveBlending, depthWrite:false })));
+        var line = new THREE.Line(geo, lineMat); line.frustumCulled = false;
+        var headMat = track(new THREE.SpriteMaterial({ map: cometTex, transparent:true, opacity:0, blending:THREE.AdditiveBlending, depthWrite:false, color: new THREE.Color(tint.comet.r*1.2, tint.comet.g*1.2, tint.comet.b*1.2) }));
+        var head = new THREE.Sprite(headMat); head.scale.set(0.35,0.35,1);
+        group.add(line); group.add(head);
+        var home = strands[Math.floor(Math.random()*strands.length)];
+        var speed = cfg.cometSpeed * (0.7 + Math.random()*0.6);
+        cometList.push({ bright:0.7+Math.random()*0.3, lane:home.lane, speed:speed, pulse:home.speed, wobblePhase:home.wobblePhase,
+          base:speed, boost:0, boostMul:1, racing:false, s:0, idle:0, idleFor:0.4+(i/cometTotal)*cfg.cometDelay,
+          trail:trail, trailCol:trailCol, geo:geo, line:line, head:head });
+      }
+      born = 0;
+      resize();
+    }
+
+    var distance = FORM_HEIGHT/2/Math.tan((BASE_ZOOM*Math.PI)/180/2);
+    var viewDir = new THREE.Vector3(3.4,-0.6,10).normalize();
+    var lookTarget = new THREE.Vector3(0, FORM_HEIGHT/2, 0);
+    camera.position.copy(lookTarget).addScaledVector(viewDir, distance);
+    camera.lookAt(lookTarget);
+
+    var viewHeight = 1;
+    function resize(){
+      var cfg = cfgRef.current;
+      var w = container.clientWidth || 1, h = container.clientHeight || 1;
+      viewHeight = h;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h; camera.updateProjectionMatrix();
+      repelUniforms.uAspect.value = w / h;
+      repelUniforms.uRadius.value = clamp(cfg.repelRadius / (h/2), 0.01, 3);
+      if (!cfg.running) renderer.render(scene, camera);
+    }
+    var observer = new ResizeObserver(resize);
+
+    var repelTarget = 0;
+    function onPointerMove(e){
+      var cfg = cfgRef.current;
+      var rect = container.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      repelUniforms.uMouse.value.set(((e.clientX-rect.left)/rect.width)*2-1, -(((e.clientY-rect.top)/rect.height)*2-1));
+      repelTarget = (cfg.hoverRepel && cfg.running) ? clamp(cfg.repelStrength/100,0,1) * 0.45 : 0;
+    }
+    function onPointerLeave(){ repelTarget = 0; }
+    container.addEventListener('pointermove', onPointerMove);
+    container.addEventListener('pointerleave', onPointerLeave);
+    container.addEventListener('pointercancel', onPointerLeave);
+
+    function addWave(x,y,z,at,amp){
+      wavesAwake = true;
+      var slot = 0, oldest = Infinity;
+      for (var i=0;i<MAX_WAVES;i++){
+        if (!waves[i].active){ slot = i; break; }
+        if (waves[i].at < oldest){ oldest = waves[i].at; slot = i; }
+      }
+      waves[slot] = { active:true, x:x,y:y,z:z, at:at, amp:amp };
+    }
+    function waveAt(x,y,z,now,out,at,radius){
+      var ox=0,oy=0,oz=0, any=false;
+      for (var i=0;i<MAX_WAVES;i++){
+        var w = waves[i];
+        if (!w.active) continue;
+        var age = now - w.at;
+        if (age > WAVE_LIFE){ w.active = false; continue; }
+        any = true;
+        var dx=x-w.x, dy=y-w.y, dz=z-w.z;
+        var d = Math.sqrt(dx*dx+dy*dy+dz*dz);
+        if (d < 0.001 || d > radius*1.5) continue;
+        var front = Math.abs(d - WAVE_SPEED*age);
+        if (front > WAVE_WIDTH) continue;
+        var shell = Math.cos((front/WAVE_WIDTH)*Math.PI/2);
+        var fade = Math.exp(-age/WAVE_DECAY);
+        var near = 1/Math.max(d,0.3);
+        var push = RIPPLE_STRENGTH * w.amp * WAVE_STRENGTH * shell * fade * near;
+        ox += (dx/d)*push; oy += (dy/d)*push; oz += (dz/d)*push;
+      }
+      if (!any) wavesAwake = false;
+      out[at]+=ox; out[at+1]+=oy; out[at+2]+=oz;
+    }
+    function burstAt(i, now, force){
+      rippleAwake = true;
+      var x=dotHome[i*3], y=dotHome[i*3+1], z=dotHome[i*3+2];
+      addWave(x,y,z,now,force);
+      var radius = RIPPLE_RADIUS, maxSq = radius*radius;
+      for (var j=0;j<dotCount;j++){
+        var dx=dotHome[j*3]-x, dy=dotHome[j*3+1]-y, dz=dotHome[j*3+2]-z;
+        var sq = dx*dx+dy*dy+dz*dz;
+        if (sq > maxSq || sq < 1e-4) continue;
+        var d = Math.sqrt(sq), f = 1 - d/radius;
+        var push = (RIPPLE_STRENGTH*force*f*f)/Math.max(d,0.1);
+        dotVel[j*3]+=dx*push; dotVel[j*3+1]+=dy*push; dotVel[j*3+2]+=dz*push;
+        var swell = 1 + (SCALE_PEAK-1)*force*f*f;
+        if (swell > dotScale[j]){ dotScale[j]=swell; dotScaleVel[j]=0; }
+      }
+    }
+    function settle(dt){
+      var moving = false;
+      for (var i=0;i<dotCount;i++){
+        var at = i*3;
+        for (var k=0;k<3;k++){
+          var a = -RIPPLE_SPRING*dotShift[at+k] - RIPPLE_DAMPING*dotVel[at+k];
+          dotVel[at+k] += a*dt; dotShift[at+k] += dotVel[at+k]*dt;
+        }
+        var restSq = dotShift[at]**2+dotShift[at+1]**2+dotShift[at+2]**2;
+        var velSq = dotVel[at]**2+dotVel[at+1]**2+dotVel[at+2]**2;
+        if (restSq < 1e-8 && velSq < 1e-8){ dotShift[at]=dotShift[at+1]=dotShift[at+2]=0; dotVel[at]=dotVel[at+1]=dotVel[at+2]=0; }
+        else moving = true;
+        var sa = -SCALE_SPRING*(dotScale[i]-1) - SCALE_DAMPING*dotScaleVel[i];
+        dotScaleVel[i] += sa*dt; dotScale[i] += dotScaleVel[i]*dt;
+        if (Math.abs(dotScale[i]-1) < 0.001 && Math.abs(dotScaleVel[i]) < 0.001){ dotScale[i]=1; dotScaleVel[i]=0; }
+        else moving = true;
+      }
+      if (!moving) rippleAwake = false;
+    }
+
+    var frame = 0, elapsed = 0, flow = 0, strandClock = 0, heldFrame = false, tick = 0, lastTime = performance.now();
+
+    function drawStrand(strand, now, entrance){
+      var cfg = cfgRef.current;
+      var spin = flow * strand.speed;
+      var bright = strand.bright * cfg.lineGlow;
+      var lift = 0.15 + bright*1.5;
+      var alpha = Math.min(bright*0.5*(0.9+0.1*Math.sin(now*0.18+strand.pulse)), 0.7) * Math.min(entrance*3,1);
+      var reach = strand.from + entrance*(strand.to-strand.from);
+      var tipFade = 0.15*(strand.to-strand.from);
+      var pts = strand.pts, cols = strand.cols;
+      for (var i=0;i<STRAND_SEGMENTS;i++){
+        var u = i/(STRAND_SEGMENTS-1);
+        var s = strand.from + u*(strand.to-strand.from);
+        var at = i*3;
+        shape.writePoint(pts, at, s, strand.lane, spin, WOBBLE, strand.wobblePhase, now);
+        if (wavesAwake) waveAt(pts[at], pts[at+1], pts[at+2], now, pts, at, RIPPLE_RADIUS);
+        var edge = 1;
+        if (u < FADE_ZONE){ var k = u/FADE_ZONE; edge = k*k; }
+        else if (u > 1-FADE_ZONE){ var k2 = (1-u)/FADE_ZONE; edge = k2*k2; }
+        var tip = 1;
+        if (s > reach) tip = 0;
+        else if (s > reach - tipFade){ tip = (reach-s)/tipFade; tip *= tip; }
+        var v = edge*lift*tip*alpha;
+        cols[at]=tint.strand.r*v; cols[at+1]=tint.strand.g*v; cols[at+2]=tint.strand.b*v;
+      }
+      var w = strand.offset;
+      for (i=0;i<STRAND_SEGMENTS-1;i++){
+        var a=i*3, b=(i+1)*3;
+        strandPos[w]=pts[a]; strandPos[w+1]=pts[a+1]; strandPos[w+2]=pts[a+2];
+        strandCol[w]=cols[a]; strandCol[w+1]=cols[a+1]; strandCol[w+2]=cols[a+2];
+        w+=3;
+        strandPos[w]=pts[b]; strandPos[w+1]=pts[b+1]; strandPos[w+2]=pts[b+2];
+        strandCol[w]=cols[b]; strandCol[w+1]=cols[b+1]; strandCol[w+2]=cols[b+2];
+        w+=3;
+      }
+    }
+
+    function driveComet(comet, now, dt, entrance){
+      var cfg = cfgRef.current;
+      var tailLen = comet.trail.length/3;
+      if (!comet.racing){
+        comet.head.material.opacity = 0;
+        if (entrance < 0.3) return;
+        comet.idle += dt;
+        if (comet.idle > comet.idleFor){
+          comet.racing = true;
+          comet.s = cfg.flowDir < 0 ? RUN_HIGH : RUN_LOW;
+          comet.base = cfg.cometSpeed*(0.7+Math.random()*0.6);
+          comet.speed = comet.base; comet.boost = 0; comet.boostMul = 1;
+          var home = strands[Math.floor(Math.random()*strands.length)];
+          comet.lane = home.lane; comet.pulse = home.speed; comet.wobblePhase = home.wobblePhase;
+        }
+        return;
+      }
+      if (comet.boost > 0){
+        comet.boost -= dt;
+        if (comet.boost <= 0){ comet.boost = 0; comet.boostMul = 1; }
+        else comet.boostMul = 1 + (HIT_BOOST-1)*(comet.boost/HIT_BOOST_TIME);
+        comet.speed = comet.base * comet.boostMul;
+      }
+      comet.s += dt*comet.speed*cfg.flowDir;
+      if (cfg.flowDir < 0 ? comet.s < RUN_LOW : comet.s > RUN_HIGH){
+        comet.racing = false; comet.idle = 0; comet.idleFor = cfg.cometDelay*(0.6+Math.random()*0.8);
+        comet.trailCol.fill(0);
+        comet.geo.attributes.color.needsUpdate = true;
+        comet.head.material.opacity = 0;
+        return;
+      }
+      var spin = flow*comet.pulse;
+      var ends = clamp((comet.s-RUN_LOW)/RUN_FADE,0,1) * clamp((RUN_HIGH-comet.s)/RUN_FADE,0,1);
+      for (var i=0;i<tailLen;i++){
+        var s = clamp(comet.s - i*0.005*cfg.flowDir, 0.005, 0.995);
+        var at = i*3;
+        shape.writePoint(comet.trail, at, s, comet.lane, spin, WOBBLE, comet.wobblePhase, now);
+        var along = Math.pow(1-i/tailLen, 2);
+        var v = comet.bright*cfg.cometGlow*along*ends;
+        var hot = entrance*(i<3?1.3:1);
+        comet.trailCol[at]=tint.comet.r*v*hot; comet.trailCol[at+1]=tint.comet.g*v*hot; comet.trailCol[at+2]=tint.comet.b*v*hot;
+      }
+      comet.head.position.set(comet.trail[0], comet.trail[1], comet.trail[2]);
+      var swell = comet.boost > 0 ? 1+(comet.boostMul-1)*0.8 : 1;
+      comet.head.material.opacity = ends*0.35*entrance*swell;
+      comet.head.scale.set(0.35*swell, 0.35*swell, 1);
+      comet.geo.attributes.position.needsUpdate = true;
+      comet.geo.attributes.color.needsUpdate = true;
+    }
+
+    function collide(now){
+      var cfg = cfgRef.current;
+      var force = cfg.collideForce;
+      if (force <= 0) return;
+      var hitSq = HIT_RADIUS*HIT_RADIUS;
+      for (var ci=0; ci<cometList.length; ci++){
+        var comet = cometList[ci];
+        if (!comet.racing) continue;
+        var x=comet.trail[0], y=comet.trail[1], z=comet.trail[2];
+        if (x===0 && y===0 && z===0) continue;
+        for (var i=0;i<dotCount;i+=3){
+          var dx=dotHome[i*3]-x, dy=dotHome[i*3+1]-y, dz=dotHome[i*3+2]-z;
+          var sq = dx*dx+dy*dy+dz*dz;
+          if (sq < hitSq && dotHitAt[i]===0){
+            dotHitAt[i]=0.001; dotFlash[i]=HIT_FLASH*force; dotScale[i]=1+(HIT_POP-1)*force;
+            burstAt(i, now, force);
+            comet.boost = HIT_BOOST_TIME; comet.boostMul = 1+(HIT_BOOST-1)*force; comet.speed = comet.base*comet.boostMul;
+          }
+        }
+      }
+    }
+
+    function step(now){
+      frame = requestAnimationFrame(step);
+      var cfg = cfgRef.current;
+      var dt = Math.min((now-lastTime)/1000, 0.04);
+      lastTime = now;
+      if (!cfg.running){ if (!heldFrame){ renderer.render(scene, camera); heldFrame = true; } return; }
+      heldFrame = false;
+      if (born === 0) born = now;
+      elapsed = (now-born)/1000;
+      var t = elapsed;
+      var fadeStrand = ramp(t, ENTRANCE.strandStart, ENTRANCE.strandEnd);
+      var fadeDot = ramp(t, ENTRANCE.dotStart, ENTRANCE.dotEnd);
+      var fadeComet = ramp(t, ENTRANCE.cometStart, ENTRANCE.cometEnd);
+      syncColors(cfg);
+      var fov = fovForZoom(cfg.zoom);
+      if (camera.fov !== fov){ camera.fov = fov; camera.updateProjectionMatrix(); }
+      repelUniforms.uRadius.value = clamp(cfg.repelRadius/(viewHeight/2), 0.01, 3);
+      flow += dt*cfg.flowSpeed;
+      var us = repelUniforms.uStrength;
+      us.value += (repelTarget - us.value) * Math.min(1, dt*12);
+
+      strandClock += dt;
+      if (strandClock >= STRAND_HZ && strandGeo){
+        strandClock -= STRAND_HZ;
+        for (var si=0; si<strands.length; si++) drawStrand(strands[si], t, fadeStrand);
+        strandGeo.attributes.position.needsUpdate = true;
+        strandGeo.attributes.color.needsUpdate = true;
+      }
+      if (rippleAwake) settle(dt);
+
+      if (dotMesh && dotCount > 0){
+        var size = cfg.dotSize;
+        for (var i=0;i<dotCount;i++){
+          var dot = dotList[i];
+          var strand = strands[dot.strand] || strands[0];
+          var spin = flow*strand.speed;
+          var at = i*3;
+          shape.writePoint(dotHome, at, dot.s, dot.lane, spin, WOBBLE, strand.wobblePhase, t);
+          if (dotHitAt[i] > 0){
+            dotHitAt[i] += dt;
+            var age = dotHitAt[i];
+            if (age < HIT_FADE){
+              var k = age/HIT_FADE;
+              dotAlive[i] = (1+(HIT_POP-1)*(1-k))*(1-k*k);
+              dotFlash[i] = HIT_FLASH*(1-k*k)*(1-k*k);
+            } else { dotAlive[i]=0; dotFlash[i]=0; }
+            if (age > HIT_RESPAWN){ dotHitAt[i]=0; dotAlive[i]=1; dotFlash[i]=0; }
+          }
+          var alive = dotAlive[i];
+          var scale = size*dotScale[i]*alive;
+          dummy.makeScale(scale,scale,scale);
+          dummy.setPosition(dotHome[at]+dotShift[at], dotHome[at+1]+dotShift[at+1], dotHome[at+2]+dotShift[at+2]);
+          dotMesh.setMatrixAt(i, dummy);
+          var beat = 1 - cfg.dotFlicker + cfg.dotFlicker*Math.pow(0.08+0.92*Math.max(0, Math.sin(t*dot.flickerRate+dot.pulse)), 2.5);
+          var swollen = dotScale[i] > 1.02 ? 1+(dotScale[i]-1)*0.5 : 1;
+          var v = dot.bright*beat*cfg.dotGlow*swollen*fadeDot*(1+dotFlash[i])*alive;
+          dotColors[at]=tint.dot.r*v; dotColors[at+1]=tint.dot.g*v; dotColors[at+2]=tint.dot.b*v;
+        }
+        dotMesh.instanceMatrix.needsUpdate = true;
+        if (dotMesh.instanceColor) dotMesh.instanceColor.needsUpdate = true;
+        dotMesh.material.opacity = 0.9*fadeDot;
+      }
+
+      for (var cj=0; cj<cometList.length; cj++) driveComet(cometList[cj], t, dt, fadeComet);
+      tick++;
+      if (tick % 2 === 0 && dotCount > 0) collide(t);
+      renderer.render(scene, camera);
+    }
+
+    build();
+    observer.observe(container);
+    lastTime = performance.now();
+    frame = requestAnimationFrame(step);
+
+    return {
+      rebuild: build,
+      dispose: function(){
+        cancelAnimationFrame(frame);
+        observer.disconnect();
+        container.removeEventListener('pointermove', onPointerMove);
+        container.removeEventListener('pointerleave', onPointerLeave);
+        container.removeEventListener('pointercancel', onPointerLeave);
+        for (var i=0;i<disposables.length;i++) disposables[i].dispose();
+        renderer.dispose();
+        if (renderer.forceContextLoss) renderer.forceContextLoss();
+      }
+    };
+  }
+
+  /* ---------- instantiate with WATTWERK green defaults, matching hero-18's own overrides ----------
+     Perf note: the original component swaps in a static image background on mobile/tablet and only
+     runs the full WebGL vortex on desktop. We run the same vortex everywhere but scale the particle
+     counts down for smaller/lower-power viewports, decided BEFORE the first build (not after) since
+     mutating the config post-build never reaches the already-sized buffers. */
+  var isSmallViewport = window.matchMedia('(max-width:900px)').matches;
+  var DEFAULTS = {
+    background: 'transparent', topRadius: 380, waistRadius: 53, waistPosition: 50, bottomRadius: 1150,
+    twist: 3, zoom: 75, speed: 10, direction: 'right',
+    lineOptions: { count: isSmallViewport ? 120 : 170, color: '#7cfc8a', glow: 5 },
+    dots: true, dotOptions: { count: isSmallViewport ? 1400 : 3000, size: 20, color: '#ffffff', glow: 0.8, flicker: 10 },
+    comets: true, cometOptions: { count: isSmallViewport ? 4 : 8, speed: 6, color: '#52ae54', glow: 6, tail: 19, delay: 8, collide: 6 },
+    repel: !isSmallViewport, repelOptions: { radius: 60, strength: 10 }
+  };
+  var line = DEFAULTS.lineOptions, dot = DEFAULTS.dotOptions, comet = DEFAULTS.cometOptions, shove = DEFAULTS.repelOptions;
+  var config = {
+    floorRadius: DEFAULTS.bottomRadius / PX_PER_WORLD,
+    waistRadius: DEFAULTS.waistRadius / PX_PER_WORLD,
+    crownRadius: DEFAULTS.topRadius / PX_PER_WORLD,
+    waistAt: 1 - DEFAULTS.waistPosition / 100,
+    twist: DEFAULTS.twist,
+    zoom: DEFAULTS.zoom,
+    flowDir: DEFAULTS.direction === 'left' ? -1 : 1,
+    flowSpeed: (DEFAULTS.speed/100) * (DEFAULTS.direction === 'left' ? -1 : 1),
+    lineCount: line.count, lineColor: line.color, lineGlow: (line.glow/10)*LINE_GLOW_MAX,
+    showDots: DEFAULTS.dots, dotCount: dot.count, dotSize: dot.size/DOT_SIZE_SCALE, dotColor: dot.color,
+    dotGlow: (dot.glow/10)*DOT_GLOW_MAX, dotFlicker: dot.flicker/10,
+    showComets: DEFAULTS.comets, cometCount: comet.count, cometSpeed: (comet.speed/10)*COMET_SPEED_MAX,
+    cometColor: comet.color, cometGlow: (comet.glow/10)*COMET_GLOW_MAX, cometTail: comet.tail, cometDelay: comet.delay,
+    collideForce: comet.collide/10, hoverRepel: DEFAULTS.repel, repelRadius: shove.radius, repelStrength: shove.strength,
+    running: !reducedMotion
+  };
+  var cfgRef = { current: config };
+  try {
+    createVortex(canvas, container, cfgRef);
+    /* Stop paying for strand/dot/comet math once the hero has scrolled out of view — the
+       render loop keeps a cheap requestAnimationFrame ticking either way, but skips all the
+       per-frame simulation work while cfg.running is false, same mechanism reduced-motion uses. */
+    if ('IntersectionObserver' in window && !reducedMotion){
+      var vortexVisibility = new IntersectionObserver(function(entries){
+        config.running = entries[0].isIntersecting;
+      }, { threshold: 0 });
+      vortexVisibility.observe(container);
+    }
+  } catch (err) {
+    console.warn('[Vortex] init failed:', err);
+    canvas.style.display = 'none';
+  }
+})();
+</script>
+</body>
+</html>
