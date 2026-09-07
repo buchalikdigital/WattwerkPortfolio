@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galerie &amp; Referenzen – realisierte Photovoltaikanlagen | WATTWERK (Demo)</title>
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css2?family=Instrument+Serif:ital@0;1&family=Lato:wght@400;700&family=Inter+Tight:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<style>
+:root{
+  --bg:#0a0a0a;
+  --bg-2:#0d120d;
+  --green:#1a781c;
+  --green-light:#52ae54;
+  --green-glow:#7cfc8a;
+  --white:#ffffff;
+  --dim:rgba(255,255,255,.7);
+  --faint:rgba(255,255,255,.5);
+  --line:rgba(255,255,255,.1);
+  --card:rgba(255,255,255,.02);
+  --serif:'Instrument Serif', Georgia, serif;
+  --body:'Lato', ui-sans-serif, system-ui, sans-serif;
+  --ui:'Inter Tight', ui-sans-serif, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--white);font-family:var(--body);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px;}
+@media (max-width:640px){.wrap{padding:0 22px;}}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);}
+.reveal.in-view{opacity:1;transform:none;}
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1!important;transform:none!important;transition:none!important;}
+}
+
+/* ============ NAV ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 32px;transition:padding .3s ease, background .3s ease, border-color .3s ease;
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{padding:14px 32px;background:rgba(10,10,10,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line);}
+.nav-logo{display:flex;align-items:center;gap:9px;font-family:var(--ui);font-weight:600;font-size:19px;letter-spacing:-.3px;}
+.nav-logo svg{flex-shrink:0;}
+.nav-links{display:flex;gap:26px;list-style:none;font-family:var(--ui);font-size:15px;font-weight:400;letter-spacing:-.2px;}
+.nav-links a{color:var(--dim);transition:color .2s;}
+.nav-links a:hover{color:var(--white);}
+.nav-links a.active{color:var(--green-glow);}
+.nav-cta{
+  background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:10px 18px;font-family:var(--ui);font-size:14px;font-weight:500;
+  transition:background .2s, border-color .2s;
+}
+.nav-cta:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);}
+.nav-toggle{display:none;flex-direction:column;gap:5px;width:38px;height:38px;align-items:center;justify-content:center;border-radius:10px;border:1px solid var(--line);background:var(--card);}
+.nav-toggle span{width:18px;height:2px;background:var(--white);border-radius:2px;transition:transform .3s, opacity .3s;}
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nav-toggle.open span:nth-child(2){opacity:0;}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.mobile-menu{
+  position:fixed;inset:0;z-index:45;background:#0a0a0a;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:30px;
+  opacity:0;pointer-events:none;transition:opacity .35s ease;
+}
+.mobile-menu.open{opacity:1;pointer-events:auto;}
+.mobile-menu a{font-family:var(--serif);font-size:2rem;color:var(--white);}
+@media (max-width:900px){
+  .nav-links{display:none;}
+  .nav-cta{display:none;}
+  .nav-toggle{display:flex;}
+}
+
+/* ============ SUB-HERO ============ */
+.subhero{position:relative;min-height:56vh;overflow:hidden;background:var(--bg);display:flex;align-items:flex-end;}
+.subhero-ambient{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 55% at 12% 0%, rgba(82,174,84,.18), transparent 60%),
+    radial-gradient(ellipse 55% 60% at 90% 15%, rgba(82,174,84,.10), transparent 65%),
+    var(--bg);
+}
+.subhero-media{position:absolute;inset:0;z-index:0;}
+.subhero-media img{width:100%;height:100%;object-fit:cover;opacity:.34;}
+.subhero-media::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,10,10,.55) 0%, rgba(10,10,10,.75) 55%, var(--bg) 100%);}
+.subhero-grain{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.4;
+  background-image:radial-gradient(rgba(255,255,255,.045) 1px, transparent 1px);
+  background-size:3px 3px;
+}
+.subhero-content{position:relative;z-index:2;padding:170px 0 64px;}
+.crumb{font-family:var(--ui);font-size:.8rem;color:var(--faint);display:flex;gap:8px;align-items:center;}
+.crumb a{color:var(--dim);}
+.crumb a:hover{color:var(--white);}
+.subhero-badge{
+  display:inline-flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:8px 12px;margin-top:22px;
+}
+.subhero-badge-dot{width:26px;height:26px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.subhero-badge span{font-family:var(--body);font-size:14px;letter-spacing:-.2px;}
+.subhero h1{
+  font-family:var(--serif);font-weight:400;font-style:normal;
+  font-size:clamp(2.4rem,5.6vw,4rem);line-height:1.08;letter-spacing:-1px;
+  max-width:760px;margin-top:22px;
+}
+.subhero h1 em{font-style:italic;color:var(--green-glow);}
+.subhero p{font-family:var(--body);font-size:clamp(1.02rem,1.5vw,1.2rem);line-height:1.55;color:var(--dim);max-width:560px;margin-top:18px;}
+
+/* ============ SECTIONS SHARED ============ */
+section{position:relative;background:var(--bg);}
+.section-head{max-width:640px;margin:0 auto 48px;text-align:center;}
+.eyebrow{font-family:var(--ui);font-size:.76rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--green-light);}
+.section-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4vw,3rem);line-height:1.12;margin-top:14px;}
+.section-head h2 em{font-style:italic;color:var(--green-glow);}
+.section-head p{font-family:var(--body);color:var(--dim);font-size:1.05rem;margin-top:16px;line-height:1.6;}
+
+.btn{
+  display:inline-flex;align-items:center;gap:10px;border-radius:12px;font-family:var(--body);
+  font-weight:700;font-size:15px;letter-spacing:-.2px;padding:14px 20px;
+  transition:filter .2s, background .2s, border-color .2s, transform .2s;
+}
+.btn-primary{
+  position:relative;color:#fff;border-top:1px solid rgba(255,255,255,.2);
+  background:linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0) 44%), linear-gradient(90deg, var(--green), var(--green));
+  box-shadow:0 3px 6px rgba(0,0,0,.25), inset 0 1px 1px rgba(255,255,255,.3);
+}
+.btn-primary:hover{filter:brightness(1.12);transform:translateY(-2px);}
+.btn-outline{background:var(--card);border:1px solid var(--line);color:#fff;font-weight:400;}
+.btn-outline:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);transform:translateY(-2px);}
+.btn svg{flex-shrink:0;}
+
+/* ============ FILTER TABS ============ */
+.filter-tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:46px;}
+.filter-tab{font-family:var(--ui);font-size:.86rem;font-weight:500;color:var(--dim);background:var(--card);border:1px solid var(--line);border-radius:20px;padding:9px 18px;}
+.filter-tab.is-active{color:#fff;border-color:rgba(82,174,84,.5);background:rgba(82,174,84,.12);}
+
+/* ============ GALERIE GRID ============ */
+.galerie{padding:110px 0 100px;}
+.gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media (max-width:860px){.gal-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:560px){.gal-grid{grid-template-columns:1fr;}}
+.gal-card{border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--line);transition:transform .5s cubic-bezier(.16,1,.3,1), border-color .5s;}
+.gal-card:hover{transform:translateY(-6px);border-color:rgba(82,174,84,.4);}
+.gal-visual{height:230px;position:relative;overflow:hidden;}
+.gal-visual img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1);}
+.gal-card:hover .gal-visual img{transform:scale(1.06);}
+.gal-tag{position:absolute;top:14px;left:14px;background:rgba(10,10,10,.65);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:5px 12px;font-family:var(--ui);font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--green-glow);}
+.gal-body{padding:20px 22px 24px;}
+.gal-loc{font-family:var(--ui);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green-light);}
+.gal-body h3{font-family:var(--serif);font-weight:400;font-size:1.3rem;margin:8px 0 8px;}
+.gal-body p{font-size:.88rem;line-height:1.6;color:var(--dim);margin-bottom:14px;}
+.gal-stats{display:flex;gap:16px;border-top:1px solid var(--line);padding-top:14px;}
+.gal-stat{font-family:var(--ui);}
+.gal-stat strong{display:block;font-size:1.05rem;color:var(--green-glow);font-weight:600;}
+.gal-stat span{display:block;font-size:.68rem;color:var(--faint);margin-top:2px;text-transform:uppercase;letter-spacing:.04em;}
+
+/* ============ BIG SHOWCASE ============ */
+.showcase{padding:0 0 110px;}
+.showcase-inner{position:relative;border-radius:24px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/7;}
+@media (max-width:760px){.showcase-inner{aspect-ratio:4/5;}}
+.showcase-inner img{width:100%;height:100%;object-fit:cover;object-position:center 20%;}
+.showcase-inner::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg, rgba(10,10,10,.85) 0%, rgba(10,10,10,.35) 50%, rgba(10,10,10,.1) 100%);}
+.showcase-copy{position:absolute;left:0;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;padding:0 48px;max-width:520px;z-index:2;}
+@media (max-width:760px){.showcase-copy{padding:0 26px;max-width:100%;}}
+.showcase-copy h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.18;margin-top:14px;}
+.showcase-copy h2 em{font-style:italic;color:var(--green-glow);}
+.showcase-copy p{color:var(--dim);margin-top:16px;line-height:1.7;}
+
+/* ============ CTA BAND ============ */
+.ctaband{padding:0 0 130px;}
+.ctaband-inner{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:64px 48px;text-align:center;position:relative;overflow:hidden;}
+.ctaband-inner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 0%, rgba(82,174,84,.18), transparent 70%);pointer-events:none;}
+.ctaband h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3.6vw,2.6rem);line-height:1.18;position:relative;}
+.ctaband h2 em{font-style:italic;color:var(--green-glow);}
+.ctaband p{color:var(--dim);margin:16px auto 30px;max-width:480px;line-height:1.6;position:relative;}
+.ctaband .hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;}
+@media (max-width:640px){.ctaband-inner{padding:44px 26px;}}
+
+/* ============ FOOTER ============ */
+footer{padding:50px 0;border-top:1px solid var(--line);}
+.footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-links{display:flex;gap:22px;list-style:none;font-family:var(--ui);font-size:.86rem;color:var(--faint);flex-wrap:wrap;}
+.footer-fine{font-family:var(--ui);font-size:.8rem;color:rgba(255,255,255,.35);margin-top:20px;}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="wattwerk.html" class="nav-logo">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="#52ae54"/></svg>
+    WATT<span style="color:var(--green-light)">WERK</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="wattwerk-leistungen.html">Leistungen</a></li>
+    <li><a href="wattwerk-ueber-uns.html">Über uns</a></li>
+    <li><a href="wattwerk-galerie.html" class="active">Galerie</a></li>
+    <li><a href="wattwerk.html#ablauf">Ablauf</a></li>
+    <li><a href="wattwerk-kontakt.html">Kontakt</a></li>
+  </ul>
+  <a href="wattwerk-kontakt.html" class="nav-cta" id="navCtaDesktop">Beratung anfragen</a>
+  <div class="nav-toggle" id="navToggle" aria-label="Menü"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="wattwerk-leistungen.html">Leistungen</a>
+  <a href="wattwerk-ueber-uns.html">Über uns</a>
+  <a href="wattwerk-galerie.html">Galerie</a>
+  <a href="wattwerk.html#ablauf">Ablauf</a>
+  <a href="wattwerk-kontakt.html">Kontakt</a>
+</div>
+
+<section class="subhero">
+  <div class="subhero-ambient"></div>
+  <div class="subhero-media"><img src="img/wattwerk-roof-2.webp" alt="" loading="eager" decoding="async" style="object-position:center 40%"></div>
+  <div class="subhero-grain"></div>
+  <div class="subhero-content wrap">
+    <div class="crumb reveal"><a href="wattwerk.html">Start</a> <span>/</span> <span>Galerie &amp; Referenzen</span></div>
+    <div class="subhero-badge reveal">
+      <div class="subhero-badge-dot"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="#fff" stroke-width="1.6"/><circle cx="9" cy="9" r="1.5" fill="#fff"/><path d="M4 16l4-4 3 3 5-5 4 4" stroke="#fff" stroke-width="1.6"/></svg></div>
+      <span>1.200+ realisierte Anlagen</span>
+    </div>
+    <h1 class="reveal">Anlagen, die <em>bereits laufen.</em></h1>
+    <p class="reveal">Ein Einblick in realisierte Photovoltaik-, Speicher- und Wallbox-Projekte rund um den Bodensee – von der Einfamilienhausanlage bis zur Freifläche.</p>
+  </div>
+</section>
+
+<section class="galerie" id="projekte">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Projektübersicht</span>
+      <h2>Ausgewählte <em>Referenzprojekte.</em></h2>
+      <p>Eine Auswahl realisierter Anlagen – nach Projekttyp gruppiert, mit Eckdaten zu Leistung und Ersparnis.</p>
+    </div>
+    <div class="filter-tabs reveal">
+      <span class="filter-tab is-active">Alle Projekte</span>
+      <span class="filter-tab">Dachanlagen</span>
+      <span class="filter-tab">Speicher</span>
+      <span class="filter-tab">Wallbox</span>
+      <span class="filter-tab">Freifläche</span>
+    </div>
+    <div class="gal-grid">
+      <div class="gal-card reveal">
+        <div class="gal-visual">
+          <span class="gal-tag">Dachanlage</span>
+          <img src="img/wattwerk-roof-1.webp" alt="Photovoltaikanlage auf einem Einfamilienhaus in Konstanz" loading="lazy" decoding="async">
+        </div>
+        <div class="gal-body">
+          <span class="gal-loc">Konstanz</span>
+          <h3>Einfamilienhaus am Seerhein</h3>
+          <p>Volleinspeisung auf Eigenverbrauch umgestellt, inklusive Speicher und Wallbox.</p>
+          <div class="gal-stats">
+            <div class="gal-stat"><strong>9,8 kWp</strong><span>Anlagenleistung</span></div>
+            <div class="gal-stat"><strong>78 %</strong><span>Autarkiegrad</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="gal-card reveal" style="transition-delay:.06s">
+        <div class="gal-visual">
+          <span class="gal-tag">Freifläche</span>
+          <img src="img/wattwerk-roof-2.webp" alt="Freiflächen-Photovoltaikanlage aus der Vogelperspektive" loading="lazy" decoding="async">
+        </div>
+        <div class="gal-body">
+          <span class="gal-loc">Bodenseekreis</span>
+          <h3>Freiflächenanlage Landwirtschaft</h3>
+          <p>Planung und Netzanschluss einer Freiflächenanlage für einen landwirtschaftlichen Betrieb.</p>
+          <div class="gal-stats">
+            <div class="gal-stat"><strong>850 kWp</strong><span>Anlagenleistung</span></div>
+            <div class="gal-stat"><strong>620 t</strong><span>CO₂ p.a. gespart</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="gal-card reveal" style="transition-delay:.12s">
+        <div class="gal-visual">
+          <span class="gal-tag">Dachanlage</span>
+          <img src="img/wattwerk-solarpanel-1.webp" alt="Nahaufnahme moderner Photovoltaik-Module" loading="lazy" decoding="async">
+        </div>
+        <div class="gal-body">
+          <span class="gal-loc">Überlingen</span>
+          <h3>Anlagenerweiterung Altbestand</h3>
+          <p>Bestehende Altanlage um zusätzliche Module, einen 15 kWh Speicher und Lastmanagement erweitert.</p>
+          <div class="gal-stats">
+            <div class="gal-stat"><strong>+6,2 kWp</strong><span>Erweiterung</span></div>
+            <div class="gal-stat"><strong>15 kWh</strong><span>Speicherkapazität</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="gal-card reveal">
+        <div class="gal-visual">
+          <span class="gal-tag">Speicher</span>
+          <img src="img/wattwerk-battery-1.webp" alt="Batteriespeicher im Hauskeller" loading="lazy" decoding="async" style="object-position:center 65%">
+        </div>
+        <div class="gal-body">
+          <span class="gal-loc">Radolfzell</span>
+          <h3>Nachrüstung Batteriespeicher</h3>
+          <p>Bestehende PV-Anlage ohne Speicher nachträglich mit Batteriespeicher ausgestattet.</p>
+          <div class="gal-stats">
+            <div class="gal-stat"><strong>10 kWh</strong><span>Speicherkapazität</span></div>
+            <div class="gal-stat"><strong>+35 %</strong><span>mehr Eigenverbrauch</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="gal-card reveal" style="transition-delay:.06s">
+        <div class="gal-visual">
+          <span class="gal-tag">Wallbox</span>
+          <img src="img/wattwerk-wallbox-1.webp" alt="Wallbox für Elektroauto an einer Hauswand" loading="lazy" decoding="async">
+        </div>
+        <div class="gal-body">
+          <span class="gal-loc">Singen</span>
+          <h3>Wallbox mit Lastmanagement</h3>
+          <p>Wallbox-Installation inklusive intelligentem Lastmanagement für zwei Ladepunkte.</p>
+          <div class="gal-stats">
+            <div class="gal-stat"><strong>22 kW</strong><span>Ladeleistung</span></div>
+            <div class="gal-stat"><strong>2</strong><span>Ladepunkte</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="gal-card reveal">
+        <div class="gal-visual">
+          <span class="gal-tag">Freifläche</span>
+          <img src="img/wattwerk-tech-1.webp" alt="Weitläufiges Solarfeld unter blauem Himmel" loading="lazy" decoding="async">
+        </div>
+        <div class="gal-body">
+          <span class="gal-loc">Stockach</span>
+          <h3>Solarpark am Ortsrand</h3>
+          <p>Netzgekoppelte Freiflächenanlage inklusive Trafostation und Fernüberwachung realisiert.</p>
+          <div class="gal-stats">
+            <div class="gal-stat"><strong>420 kWp</strong><span>Anlagenleistung</span></div>
+            <div class="gal-stat"><strong>310 t</strong><span>CO₂ p.a. gespart</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="gal-card reveal" style="transition-delay:.06s">
+        <div class="gal-visual">
+          <span class="gal-tag">Wallbox</span>
+          <img src="img/wattwerk-ev-charge.webp" alt="Ladestecker in der Ladebuchse eines Elektroautos" loading="lazy" decoding="async">
+        </div>
+        <div class="gal-body">
+          <span class="gal-loc">Meersburg</span>
+          <h3>PV-Überschussladen im Carport</h3>
+          <p>Wallbox mit Überschusssteuerung – das Fahrzeug lädt automatisch, sobald die Anlage Überschuss liefert.</p>
+          <div class="gal-stats">
+            <div class="gal-stat"><strong>11 kW</strong><span>Ladeleistung</span></div>
+            <div class="gal-stat"><strong>91 %</strong><span>Solaranteil beim Laden</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="gal-card reveal" style="transition-delay:.12s">
+        <div class="gal-visual">
+          <span class="gal-tag">Dachanlage</span>
+          <img src="img/wattwerk-install-1.webp" alt="Große Photovoltaikanlage auf einem Flachdach bei Sonnenuntergang" loading="lazy" decoding="async">
+        </div>
+        <div class="gal-body">
+          <span class="gal-loc">Friedrichshafen</span>
+          <h3>Gewerbedach mit Lastmanagement</h3>
+          <p>Flachdachanlage auf einer Produktionshalle, ausgelegt auf den Eigenverbrauch im Tagesbetrieb.</p>
+          <div class="gal-stats">
+            <div class="gal-stat"><strong>140 kWp</strong><span>Anlagenleistung</span></div>
+            <div class="gal-stat"><strong>68 %</strong><span>Eigenverbrauchsquote</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="gal-card reveal" style="transition-delay:.12s">
+        <div class="gal-visual">
+          <span class="gal-tag">Smart Energy</span>
+          <img src="img/wattwerk-app-1.webp" alt="Smartphone mit Energiemonitoring-App" loading="lazy" decoding="async">
+        </div>
+        <div class="gal-body">
+          <span class="gal-loc">Konstanz</span>
+          <h3>Komplettsystem mit App-Steuerung</h3>
+          <p>PV, Speicher und Wallbox zu einem intelligent gesteuerten Gesamtsystem verbunden.</p>
+          <div class="gal-stats">
+            <div class="gal-stat"><strong>12 kWp</strong><span>Anlagenleistung</span></div>
+            <div class="gal-stat"><strong>82 %</strong><span>Autarkiegrad</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="showcase">
+  <div class="wrap">
+    <div class="showcase-inner reveal">
+      <img src="img/wattwerk-app-2.webp" alt="Person prüft Energiedaten einer Photovoltaikanlage auf einem Tablet" loading="lazy" decoding="async">
+      <div class="showcase-copy">
+        <span class="eyebrow">Fallbeispiel</span>
+        <h2>Von 30 % auf <em>82 % Autarkie</em> in einer Saison.</h2>
+        <p>Eine vierköpfige Familie in Konstanz kombinierte PV-Anlage, Speicher und Wallbox – und deckt heute den Großteil ihres Jahresverbrauchs, inklusive Elektroauto, mit eigenem Solarstrom.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="showcase">
+  <div class="wrap">
+    <div class="showcase-inner reveal">
+      <img src="img/wattwerk-house-pv.webp" alt="Solarmodule aus der Vogelperspektive auf einer Freifläche" loading="lazy" decoding="async">
+      <div class="showcase-copy">
+        <span class="eyebrow">Freiflächen &amp; Gewerbe</span>
+        <h2>Auch <em>größere Flächen</em> planen wir komplett selbst.</h2>
+        <p>Von der Flächenbewertung über die Netzanschlussplanung bis zur Inbetriebnahme – bei Freiflächen- und Gewerbeanlagen bleibt derselbe Ansprechpartner an Ihrer Seite.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ctaband">
+  <div class="wrap">
+    <div class="ctaband-inner reveal">
+      <span class="eyebrow">Ihr Projekt als Nächstes</span>
+      <h2>Wie viel <em>Ihr Dach hergibt,</em> berechnen wir kostenlos.</h2>
+      <p>Unverbindlich und kostenlos – wir melden uns innerhalb eines Werktags mit einer ersten Einschätzung.</p>
+      <div class="hero-ctas">
+        <a href="wattwerk-kontakt.html" class="btn btn-primary">Beratung anfragen
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="wattwerk-leistungen.html" class="btn btn-outline">Leistungen ansehen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <a href="wattwerk.html" class="nav-logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="#52ae54"/></svg>
+        WATT<span style="color:var(--green-light)">WERK</span>
+      </a>
+      <ul class="footer-links">
+        <li><a href="wattwerk-leistungen.html">Leistungen</a></li>
+        <li><a href="wattwerk-ueber-uns.html">Über uns</a></li>
+        <li><a href="wattwerk-galerie.html">Galerie</a></li>
+        <li><a href="wattwerk-kontakt.html">Kontakt</a></li>
+        <li><a href="#">Impressum</a></li>
+        <li><a href="#">Datenschutz</a></li>
+      </ul>
+    </div>
+    <p class="footer-fine">© 2026 WATTWERK Energietechnik · Konstanz — Fiktives Demo-Beispiel · Buchalik Digital</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function(){
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+  var navToggle = document.getElementById('navToggle');
+  var mobileMenu = document.getElementById('mobileMenu');
+  navToggle.addEventListener('click', function(){
+    navToggle.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  mobileMenu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ navToggle.classList.remove('open'); mobileMenu.classList.remove('open'); });
+  });
+
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){ entry.target.classList.add('in-view'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px 0px 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in-view'); });
+  }
+
+  var tabs = document.querySelectorAll('.filter-tab');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){ t.classList.remove('is-active'); });
+      tab.classList.add('is-active');
+    });
+  });
+})();
+</script>
+
+<script>/* reveal-safety-net: erzwingt Sichtbarkeit, falls der Observer nicht ausloest */
+(function(){function show(){document.querySelectorAll('.reveal:not(.in-view)').forEach(function(el){el.classList.add('in-view');});}
+setTimeout(show,2500);window.addEventListener('load',function(){setTimeout(show,1200);});})();</script>
+</body>
+</html>

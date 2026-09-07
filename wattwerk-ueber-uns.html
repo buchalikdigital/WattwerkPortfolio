@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Über uns – Meisterbetrieb für Energietechnik in Konstanz | WATTWERK (Demo)</title>
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css2?family=Instrument+Serif:ital@0;1&family=Lato:wght@400;700&family=Inter+Tight:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<style>
+:root{
+  --bg:#0a0a0a;
+  --bg-2:#0d120d;
+  --green:#1a781c;
+  --green-light:#52ae54;
+  --green-glow:#7cfc8a;
+  --white:#ffffff;
+  --dim:rgba(255,255,255,.7);
+  --faint:rgba(255,255,255,.5);
+  --line:rgba(255,255,255,.1);
+  --card:rgba(255,255,255,.02);
+  --serif:'Instrument Serif', Georgia, serif;
+  --body:'Lato', ui-sans-serif, system-ui, sans-serif;
+  --ui:'Inter Tight', ui-sans-serif, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--white);font-family:var(--body);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px;}
+@media (max-width:640px){.wrap{padding:0 22px;}}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);}
+.reveal.in-view{opacity:1;transform:none;}
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1!important;transform:none!important;transition:none!important;}
+}
+
+/* ============ NAV ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 32px;transition:padding .3s ease, background .3s ease, border-color .3s ease;
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{padding:14px 32px;background:rgba(10,10,10,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line);}
+.nav-logo{display:flex;align-items:center;gap:9px;font-family:var(--ui);font-weight:600;font-size:19px;letter-spacing:-.3px;}
+.nav-logo svg{flex-shrink:0;}
+.nav-links{display:flex;gap:26px;list-style:none;font-family:var(--ui);font-size:15px;font-weight:400;letter-spacing:-.2px;}
+.nav-links a{color:var(--dim);transition:color .2s;}
+.nav-links a:hover{color:var(--white);}
+.nav-links a.active{color:var(--green-glow);}
+.nav-cta{
+  background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:10px 18px;font-family:var(--ui);font-size:14px;font-weight:500;
+  transition:background .2s, border-color .2s;
+}
+.nav-cta:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);}
+.nav-toggle{display:none;flex-direction:column;gap:5px;width:38px;height:38px;align-items:center;justify-content:center;border-radius:10px;border:1px solid var(--line);background:var(--card);}
+.nav-toggle span{width:18px;height:2px;background:var(--white);border-radius:2px;transition:transform .3s, opacity .3s;}
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nav-toggle.open span:nth-child(2){opacity:0;}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.mobile-menu{
+  position:fixed;inset:0;z-index:45;background:#0a0a0a;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:30px;
+  opacity:0;pointer-events:none;transition:opacity .35s ease;
+}
+.mobile-menu.open{opacity:1;pointer-events:auto;}
+.mobile-menu a{font-family:var(--serif);font-size:2rem;color:var(--white);}
+@media (max-width:900px){
+  .nav-links{display:none;}
+  .nav-cta{display:none;}
+  .nav-toggle{display:flex;}
+}
+
+/* ============ SUB-HERO ============ */
+.subhero{position:relative;min-height:56vh;overflow:hidden;background:var(--bg);display:flex;align-items:flex-end;}
+.subhero-ambient{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 55% at 12% 0%, rgba(82,174,84,.18), transparent 60%),
+    radial-gradient(ellipse 55% 60% at 90% 15%, rgba(82,174,84,.10), transparent 65%),
+    var(--bg);
+}
+.subhero-media{position:absolute;inset:0;z-index:0;}
+.subhero-media img{width:100%;height:100%;object-fit:cover;opacity:.34;}
+.subhero-media::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,10,10,.55) 0%, rgba(10,10,10,.75) 55%, var(--bg) 100%);}
+.subhero-grain{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.4;
+  background-image:radial-gradient(rgba(255,255,255,.045) 1px, transparent 1px);
+  background-size:3px 3px;
+}
+.subhero-content{position:relative;z-index:2;padding:170px 0 64px;}
+.crumb{font-family:var(--ui);font-size:.8rem;color:var(--faint);display:flex;gap:8px;align-items:center;}
+.crumb a{color:var(--dim);}
+.crumb a:hover{color:var(--white);}
+.subhero-badge{
+  display:inline-flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:8px 12px;margin-top:22px;
+}
+.subhero-badge-dot{width:26px;height:26px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.subhero-badge span{font-family:var(--body);font-size:14px;letter-spacing:-.2px;}
+.subhero h1{
+  font-family:var(--serif);font-weight:400;font-style:normal;
+  font-size:clamp(2.4rem,5.6vw,4rem);line-height:1.08;letter-spacing:-1px;
+  max-width:760px;margin-top:22px;
+}
+.subhero h1 em{font-style:italic;color:var(--green-glow);}
+.subhero p{font-family:var(--body);font-size:clamp(1.02rem,1.5vw,1.2rem);line-height:1.55;color:var(--dim);max-width:560px;margin-top:18px;}
+
+/* ============ SECTIONS SHARED ============ */
+section{position:relative;background:var(--bg);}
+.section-head{max-width:640px;margin:0 auto 56px;text-align:center;}
+.eyebrow{font-family:var(--ui);font-size:.76rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--green-light);}
+.section-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4vw,3rem);line-height:1.12;margin-top:14px;}
+.section-head h2 em{font-style:italic;color:var(--green-glow);}
+.section-head p{font-family:var(--body);color:var(--dim);font-size:1.05rem;margin-top:16px;line-height:1.6;}
+
+.btn{
+  display:inline-flex;align-items:center;gap:10px;border-radius:12px;font-family:var(--body);
+  font-weight:700;font-size:15px;letter-spacing:-.2px;padding:14px 20px;
+  transition:filter .2s, background .2s, border-color .2s, transform .2s;
+}
+.btn-primary{
+  position:relative;color:#fff;border-top:1px solid rgba(255,255,255,.2);
+  background:linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0) 44%), linear-gradient(90deg, var(--green), var(--green));
+  box-shadow:0 3px 6px rgba(0,0,0,.25), inset 0 1px 1px rgba(255,255,255,.3);
+}
+.btn-primary:hover{filter:brightness(1.12);transform:translateY(-2px);}
+.btn-outline{background:var(--card);border:1px solid var(--line);color:#fff;font-weight:400;}
+.btn-outline:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);transform:translateY(-2px);}
+.btn svg{flex-shrink:0;}
+
+/* ============ GESCHICHTE ============ */
+.geschichte{padding:110px 0;}
+.gesch-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+@media (max-width:900px){.gesch-grid{grid-template-columns:1fr;gap:32px;}}
+.gesch-visual{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/3.3;border:1px solid var(--line);}
+.gesch-visual img{width:100%;height:100%;object-fit:cover;}
+.gesch-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(150deg, rgba(82,174,84,.22), transparent 60%);mix-blend-mode:screen;}
+.gesch-copy .eyebrow{display:block;margin-bottom:14px;}
+.gesch-copy h2{font-family:var(--serif);font-size:clamp(1.8rem,3.4vw,2.6rem);font-weight:400;line-height:1.15;}
+.gesch-copy h2 em{font-style:italic;color:var(--green-glow);}
+.gesch-copy p{margin-top:16px;color:var(--dim);line-height:1.75;font-size:1.02rem;}
+
+/* ============ ZAHLEN-ZEITLEISTE ============ */
+.zeitleiste{padding:0 0 110px;background:linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 50%, var(--bg) 100%);padding-top:110px;}
+.zeit-row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:50px 0;}
+@media (max-width:760px){.zeit-row{grid-template-columns:1fr 1fr;gap:34px 10px;}}
+.zeit strong{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,3.4vw,2.7rem);color:var(--green-glow);}
+.zeit span{display:block;margin-top:8px;font-size:.82rem;color:var(--faint);font-family:var(--ui);}
+
+.zeit-media{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);aspect-ratio:21/6;margin-bottom:44px;}
+@media (max-width:760px){.zeit-media{aspect-ratio:16/9;}}
+.zeit-media img{width:100%;height:100%;object-fit:cover;}
+.zeit-media::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,10,10,.25), rgba(10,10,10,.7));pointer-events:none;}
+
+/* ============ WERTE ============ */
+.werte{padding:110px 0;}
+.werte-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+@media (max-width:960px){.werte-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.werte-grid{grid-template-columns:1fr;}}
+.werte-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 24px;transition:transform .5s cubic-bezier(.16,1,.3,1), border-color .5s;}
+.werte-card:hover{transform:translateY(-8px);border-color:rgba(82,174,84,.4);}
+.werte-icon{width:42px;height:42px;border-radius:50%;border:1px solid rgba(82,174,84,.4);display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+.werte-card h3{font-family:var(--ui);font-weight:600;font-size:1.08rem;margin-bottom:10px;letter-spacing:-.2px;}
+.werte-card p{font-family:var(--body);font-size:.92rem;line-height:1.6;color:var(--dim);}
+
+/* ============ WERKSTATT GALLERY ============ */
+.werkstatt{padding:110px 0;}
+.werk-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:20px;height:560px;}
+@media (max-width:860px){.werk-grid{grid-template-columns:1fr;grid-template-rows:repeat(5,220px);height:auto;}}
+.werk-item{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);}
+.werk-item.big{grid-row:span 2;}
+@media (max-width:860px){.werk-item.big{grid-row:auto;}}
+.werk-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1);}
+.werk-item:hover img{transform:scale(1.06);}
+.werk-item::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,10,10,0) 55%, rgba(10,10,10,.75) 100%);pointer-events:none;}
+.werk-cap{position:absolute;left:20px;bottom:18px;right:20px;z-index:2;}
+.werk-cap span{font-family:var(--ui);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green-light);}
+.werk-cap h3{font-family:var(--serif);font-weight:400;font-size:1.2rem;margin-top:6px;}
+
+/* ============ TEAM ============ */
+.team{padding:110px 0;background:linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 50%, var(--bg) 100%);}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media (max-width:860px){.team-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:560px){.team-grid{grid-template-columns:1fr;}}
+.team-card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;}
+.team-photo{height:180px;position:relative;overflow:hidden;background:
+  radial-gradient(ellipse 80% 60% at 30% 20%, rgba(82,174,84,.28), transparent 60%),
+  linear-gradient(150deg, #14201a, #0a0a0a);
+  display:flex;align-items:center;justify-content:center;
+}
+.team-photo svg{opacity:.55;}
+.team-body{padding:20px 22px 24px;}
+.team-body h3{font-family:var(--serif);font-weight:400;font-size:1.2rem;margin-bottom:4px;}
+.team-role{font-family:var(--ui);font-size:.76rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--green-light);margin-bottom:10px;display:block;}
+.team-body p{font-size:.88rem;line-height:1.6;color:var(--dim);}
+
+.team-lead{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/6;margin-bottom:30px;}
+@media (max-width:760px){.team-lead{aspect-ratio:4/3;}}
+.team-lead img{width:100%;height:100%;object-fit:cover;}
+.team-lead::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg, rgba(10,10,10,.8) 0%, rgba(10,10,10,.25) 60%, rgba(10,10,10,.05) 100%);}
+.team-lead-cap{position:absolute;left:36px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;max-width:420px;z-index:2;}
+@media (max-width:640px){.team-lead-cap{left:22px;right:22px;}}
+.team-lead-cap h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.3rem,2.6vw,1.9rem);line-height:1.2;margin-top:10px;}
+.team-lead-cap h3 em{font-style:italic;color:var(--green-glow);}
+
+/* ============ ZERTIFIKATE ============ */
+.zertifikate{padding:0 0 110px;}
+.zert-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;}
+.zert-chip{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 20px;font-family:var(--ui);font-size:.88rem;font-weight:500;}
+.zert-chip svg{stroke:var(--green-light);flex-shrink:0;}
+
+/* ============ CTA BAND ============ */
+.ctaband{padding:0 0 130px;}
+.ctaband-inner{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:64px 48px;text-align:center;position:relative;overflow:hidden;}
+.ctaband-inner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 0%, rgba(82,174,84,.18), transparent 70%);pointer-events:none;}
+.ctaband h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,3.6vw,2.6rem);line-height:1.18;position:relative;}
+.ctaband h2 em{font-style:italic;color:var(--green-glow);}
+.ctaband p{color:var(--dim);margin:16px auto 30px;max-width:480px;line-height:1.6;position:relative;}
+.ctaband .hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;}
+@media (max-width:640px){.ctaband-inner{padding:44px 26px;}}
+
+/* ============ FOOTER ============ */
+footer{padding:50px 0;border-top:1px solid var(--line);}
+.footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-links{display:flex;gap:22px;list-style:none;font-family:var(--ui);font-size:.86rem;color:var(--faint);flex-wrap:wrap;}
+.footer-fine{font-family:var(--ui);font-size:.8rem;color:rgba(255,255,255,.35);margin-top:20px;}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="wattwerk.html" class="nav-logo">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="#52ae54"/></svg>
+    WATT<span style="color:var(--green-light)">WERK</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="wattwerk-leistungen.html">Leistungen</a></li>
+    <li><a href="wattwerk-ueber-uns.html" class="active">Über uns</a></li>
+    <li><a href="wattwerk-galerie.html">Galerie</a></li>
+    <li><a href="wattwerk.html#ablauf">Ablauf</a></li>
+    <li><a href="wattwerk-kontakt.html">Kontakt</a></li>
+  </ul>
+  <a href="wattwerk-kontakt.html" class="nav-cta" id="navCtaDesktop">Beratung anfragen</a>
+  <div class="nav-toggle" id="navToggle" aria-label="Menü"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="wattwerk-leistungen.html">Leistungen</a>
+  <a href="wattwerk-ueber-uns.html">Über uns</a>
+  <a href="wattwerk-galerie.html">Galerie</a>
+  <a href="wattwerk.html#ablauf">Ablauf</a>
+  <a href="wattwerk-kontakt.html">Kontakt</a>
+</div>
+
+<section class="subhero">
+  <div class="subhero-ambient"></div>
+  <div class="subhero-media"><img src="img/wattwerk-roof-1.webp" alt="" style="object-position:center 60%"></div>
+  <div class="subhero-grain"></div>
+  <div class="subhero-content wrap">
+    <div class="crumb reveal"><a href="wattwerk.html">Start</a> <span>/</span> <span>Über uns</span></div>
+    <div class="subhero-badge reveal">
+      <div class="subhero-badge-dot"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5z" fill="#fff"/></svg></div>
+      <span>Meisterbetrieb seit 2009</span>
+    </div>
+    <h1 class="reveal">Ein Team, das <em>vor Ort auf dem Dach steht.</em></h1>
+    <p class="reveal">Seit 2009 planen und montieren wir Photovoltaikanlagen am Bodensee – mit eigenem Meisterteam, ohne Subunternehmer, mit Verantwortung für jedes Detail.</p>
+  </div>
+</section>
+
+<section class="geschichte">
+  <div class="wrap">
+    <div class="gesch-grid">
+      <div class="gesch-visual reveal">
+        <img src="img/wattwerk-roof-1.webp" alt="Photovoltaikanlage auf einem Einfamilienhaus in Konstanz" loading="lazy" decoding="async">
+      </div>
+      <div class="gesch-copy reveal">
+        <span class="eyebrow">Unsere Geschichte</span>
+        <h2>Vom Ein-Mann-Betrieb <em>zum Meisterbetrieb.</em></h2>
+        <p>WATTWERK wurde 2009 in Konstanz gegründet – mit einer Werkzeugkiste, einem Firmenwagen und der Überzeugung, dass Energietechnik am Bodensee handwerklich sauber und persönlich betreut werden sollte.</p>
+        <p>Aus den ersten Dachanlagen für Nachbarn und Freunde ist ein Meisterbetrieb mit eigenem Elektro-Team geworden, der heute über 1.200 Anlagen rund um den Bodensee geplant, installiert und in Betrieb genommen hat – von der kleinen Einfamilienhausanlage bis zur Freiflächenanlage für landwirtschaftliche Betriebe.</p>
+        <p>Was sich seit dem ersten Tag nicht geändert hat: Wir übernehmen Ihre Anlage von der ersten Dachanalyse bis zur App-Einrichtung selbst – ohne Subunternehmer, mit einem festen Ansprechpartner.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="zeitleiste">
+  <div class="wrap">
+    <div class="zeit-media reveal">
+      <img src="img/wattwerk-panels-2.webp" alt="Photovoltaikmodule vor blauem Himmel in der Bodenseeregion" loading="lazy" decoding="async" style="object-position:center 60%">
+    </div>
+    <div class="zeit-row reveal">
+      <div class="zeit"><strong>2009</strong><span>Gründung in Konstanz</span></div>
+      <div class="zeit"><strong>1.200+</strong><span>realisierte Anlagen</span></div>
+      <div class="zeit"><strong>18 MWp</strong><span>installierte Leistung</span></div>
+      <div class="zeit"><strong>4,9★</strong><span>Google-Bewertungen</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="werte">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Wofür wir stehen</span>
+      <h2>Vier Werte, <em>die unsere Arbeit prägen.</em></h2>
+      <p>Keine Marketing-Floskeln – so arbeiten wir tatsächlich, jeden Tag auf jedem Dach.</p>
+    </div>
+    <div class="werte-grid">
+      <div class="werte-card reveal">
+        <div class="werte-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#52ae54" stroke-width="1.6"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg></div>
+        <h3>Handwerkliche Sorgfalt</h3>
+        <p>Jede Anlage wird von unserem eigenen Meisterteam montiert – keine Subunternehmer, keine Kompromisse bei der Ausführung.</p>
+      </div>
+      <div class="werte-card reveal" style="transition-delay:.08s">
+        <div class="werte-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#52ae54" stroke-width="1.6"><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-6h6v6"/></svg></div>
+        <h3>Persönliche Beratung</h3>
+        <p>Ein fester Ansprechpartner von der Dachanalyse bis zur Inbetriebnahme – keine wechselnden Callcenter-Kontakte.</p>
+      </div>
+      <div class="werte-card reveal" style="transition-delay:.16s">
+        <div class="werte-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#52ae54" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+        <h3>Transparente Zeitpläne</h3>
+        <p>Sie wissen jederzeit, in welchem Schritt Ihre Anlage steckt – von der Planung bis zur Netzanmeldung.</p>
+      </div>
+      <div class="werte-card reveal" style="transition-delay:.24s">
+        <div class="werte-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#52ae54" stroke-width="1.6"><path d="M12 2l2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5z"/></svg></div>
+        <h3>Qualität vor Wachstum</h3>
+        <p>Wir übernehmen nur so viele Projekte, wie wir mit unserem eigenen Team sauber betreuen können.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="werkstatt" id="werkstatt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Einblicke</span>
+      <h2>Werkstatt &amp; <em>Lager in Konstanz.</em></h2>
+      <p>Von hier aus planen wir Ihre Anlage, lagern wir Komponenten und starten unser Team jeden Morgen aufs Dach.</p>
+    </div>
+    <div class="werk-grid">
+      <div class="werk-item big reveal">
+        <img src="img/wattwerk-app-2.webp" alt="Planung einer Photovoltaikanlage am Tablet in der Werkstatt" loading="lazy" decoding="async" style="object-position:center 30%">
+        <div class="werk-cap"><span>Planung</span><h3>Anlagenplanung &amp; Dachanalyse</h3></div>
+      </div>
+      <div class="werk-item reveal" style="transition-delay:.08s">
+        <img src="img/wattwerk-battery-1.webp" alt="Lager mit Batteriespeichern" loading="lazy" decoding="async" style="object-position:center 70%">
+        <div class="werk-cap"><span>Lager</span><h3>Komponenten &amp; Speicher</h3></div>
+      </div>
+      <div class="werk-item reveal" style="transition-delay:.16s">
+        <img src="img/wattwerk-wallbox-1.webp" alt="Wallbox-Bestand in der Werkstatt" loading="lazy" decoding="async" style="object-position:center 40%">
+        <div class="werk-cap"><span>Ausstellung</span><h3>Wallbox &amp; Zubehör</h3></div>
+      </div>
+      <div class="werk-item reveal" style="transition-delay:.24s">
+        <img src="img/wattwerk-install-1.webp" alt="Montierte Photovoltaikanlage auf einem Flachdach bei Sonnenuntergang" loading="lazy" decoding="async" style="object-position:center 50%">
+        <div class="werk-cap"><span>Montage</span><h3>Anlagen am Bodensee</h3></div>
+      </div>
+      <div class="werk-item reveal" style="transition-delay:.32s">
+        <img src="img/wattwerk-ev-charge.webp" alt="Elektroauto lädt an einer installierten Wallbox" loading="lazy" decoding="async">
+        <div class="werk-cap"><span>E-Mobility</span><h3>Ladelösungen im Test</h3></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="team">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Das Team</span>
+      <h2>Die Menschen <em>hinter WATTWERK.</em></h2>
+      <p>Ein festes Team aus Elektromeistern, Planern und Servicetechnikern – kein Subunternehmer-Karussell.</p>
+    </div>
+    <div class="team-lead reveal">
+      <img src="img/wattwerk-team.webp" alt="Zwei Mitarbeitende von WATTWERK bei der gemeinsamen Anlagenplanung im Büro" loading="lazy" decoding="async">
+      <div class="team-lead-cap">
+        <span class="eyebrow">Gemeinsam geplant</span>
+        <h3>Planung, Förderung und Montage <em>aus einer Hand.</em></h3>
+      </div>
+    </div>
+    <div class="team-grid">
+      <div class="team-card reveal">
+        <div class="team-photo"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#52ae54" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div>
+        <div class="team-body">
+          <h3>Markus Vogel</h3>
+          <span class="team-role">Geschäftsführer &amp; Elektromeister</span>
+          <p>Gründete WATTWERK 2009 und verantwortet seither jede Anlagenplanung persönlich mit.</p>
+        </div>
+      </div>
+      <div class="team-card reveal" style="transition-delay:.08s">
+        <div class="team-photo"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#52ae54" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div>
+        <div class="team-body">
+          <h3>Sabine Kern</h3>
+          <span class="team-role">Projektleitung &amp; Förderberatung</span>
+          <p>Begleitet Kundinnen und Kunden von der Erstberatung bis zur Fördermittelbeantragung.</p>
+        </div>
+      </div>
+      <div class="team-card reveal" style="transition-delay:.16s">
+        <div class="team-photo"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#52ae54" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div>
+        <div class="team-body">
+          <h3>Jonas Brandt</h3>
+          <span class="team-role">Leitung Montageteam</span>
+          <p>Führt das Installationsteam vor Ort – zuständig für Module, Speicher und Wallbox-Montage.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="zertifikate">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Zertifizierungen</span>
+      <h2>Geprüfte Qualität, <em>schwarz auf weiß.</em></h2>
+    </div>
+    <div class="zert-row reveal">
+      <div class="zert-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 2l2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5z"/></svg> Meisterbetrieb der Handwerkskammer</div>
+      <div class="zert-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg> TÜV-zertifizierte Anlagenprüfung</div>
+      <div class="zert-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-6h6v6"/></svg> Mitglied Elektro-Innung Bodensee</div>
+      <div class="zert-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg> 10 Jahre Garantie auf Installation</div>
+      <div class="zert-chip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> VDE-konforme Ausführung</div>
+    </div>
+  </div>
+</section>
+
+<section class="ctaband">
+  <div class="wrap">
+    <div class="ctaband-inner reveal">
+      <span class="eyebrow">Lernen Sie uns kennen</span>
+      <h2>Sprechen Sie <em>mit unserem Meisterteam.</em></h2>
+      <p>Kostenlose Erstberatung, unverbindlich – lernen Sie die Menschen kennen, die künftig auf Ihrem Dach stehen.</p>
+      <div class="hero-ctas">
+        <a href="wattwerk-kontakt.html" class="btn btn-primary">Beratung anfragen
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="wattwerk-leistungen.html" class="btn btn-outline">Leistungen ansehen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <a href="wattwerk.html" class="nav-logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="#52ae54"/></svg>
+        WATT<span style="color:var(--green-light)">WERK</span>
+      </a>
+      <ul class="footer-links">
+        <li><a href="wattwerk-leistungen.html">Leistungen</a></li>
+        <li><a href="wattwerk-ueber-uns.html">Über uns</a></li>
+        <li><a href="wattwerk-galerie.html">Galerie</a></li>
+        <li><a href="wattwerk-kontakt.html">Kontakt</a></li>
+        <li><a href="#">Impressum</a></li>
+        <li><a href="#">Datenschutz</a></li>
+      </ul>
+    </div>
+    <p class="footer-fine">© 2026 WATTWERK Energietechnik · Konstanz — Fiktives Demo-Beispiel · Buchalik Digital</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function(){
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+  var navToggle = document.getElementById('navToggle');
+  var mobileMenu = document.getElementById('mobileMenu');
+  navToggle.addEventListener('click', function(){
+    navToggle.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  mobileMenu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ navToggle.classList.remove('open'); mobileMenu.classList.remove('open'); });
+  });
+
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){ entry.target.classList.add('in-view'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px 0px 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in-view'); });
+  }
+})();
+</script>
+
+<script>/* reveal-safety-net: erzwingt Sichtbarkeit, falls der Observer nicht ausloest */
+(function(){function show(){document.querySelectorAll('.reveal:not(.in-view)').forEach(function(el){el.classList.add('in-view');});}
+setTimeout(show,2500);window.addEventListener('load',function(){setTimeout(show,1200);});})();</script>
+</body>
+</html>
